@@ -35,13 +35,12 @@ function spawnOrbs() {
     }
 }
 spawnOrbs();
-video.addEventListener('error', () => {
-    canvas.style.opacity = '1';
-});
-video.addEventListener('playing', () => {
-    canvas.style.opacity = '0';
-    canvas.style.transition = 'opacity 1s';
-});
+// Ensure canvas is visible immediately
+canvas.style.opacity = '1';
+
+// We don't need these listeners if we want it always visible
+// video.addEventListener('error', () => { ... });
+// video.addEventListener('playing', () => { ... });
 
 const unlockScreen = document.getElementById('unlock-screen');
 const unlockBtn = document.getElementById('unlockBtn');
@@ -51,36 +50,36 @@ const langBtns = document.querySelectorAll('.lang-btn');
 
 // ========== МУЗЫКАЛЬНЫЙ ПЛЕЕР ==========
 (function() {
-    // Создаём аудио элемент
-    const bgMusic = new Audio('music123.mp3'); // Убедитесь, что файл music.mp3 существует в той же папке
-    bgMusic.loop = true; // Зацикливаем музыку
-    bgMusic.volume = 0.5; // Громкость 50% (можно изменить)
+    let bgMusic = null;
+    let isMusicPlaying = false;
 
-    let isMusicPlaying = false; // Флаг состояния музыки
+    function initAudio() {
+        if (bgMusic) return;
+        bgMusic = new Audio('music123.mp3');
+        bgMusic.loop = true;
+        bgMusic.volume = 0.5;
+        bgMusic.preload = 'auto';
+    }
 
     // Кнопка музыки на unlock-экране
     const musicToggleUnlock = document.getElementById('musicToggleUnlock');
 
     // Может быть ещё одна кнопка на основном экране (если есть)
-    const musicToggleMain = document.getElementById('musicToggleMain'); // Если есть такая кнопка на основном экране
+    const musicToggleMain = document.getElementById('musicToggleMain');
 
     // Функция для обновления иконки кнопки
     function updateMusicIcon(button, isPlaying) {
         if (!button) return;
-
-        // Сохраняем текущий SVG
         const svg = button.querySelector('svg');
         if (!svg) return;
 
         if (isPlaying) {
-            // Иконка "Включено" (динамик со звуком)
             svg.innerHTML = `
                 <path d="M3 10v4h4l5 5V5l-5 5H3z"/>
                 <path d="M18 8c1.5 1.5 2 3.5 2 6s-0.5 4.5-2 6"/>
                 <path d="M21 5c2.5 2.5 3.5 5.5 3.5 9s-1 6.5-3.5 9"/>
             `;
         } else {
-            // Иконка "Выключено" (динамик с крестиком)
             svg.innerHTML = `
                 <path d="M3 10v4h4l5 5V5l-5 5H3z"/>
                 <line x1="18" y1="8" x2="22" y2="12"/>
@@ -91,6 +90,7 @@ const langBtns = document.querySelectorAll('.lang-btn');
 
     // Функция для включения музыки
     function playMusic() {
+        initAudio();
         bgMusic.play().then(() => {
             isMusicPlaying = true;
             updateMusicIcon(musicToggleUnlock, true);
@@ -102,10 +102,12 @@ const langBtns = document.querySelectorAll('.lang-btn');
 
     // Функция для выключения музыки
     function pauseMusic() {
-        bgMusic.pause();
-        isMusicPlaying = false;
-        updateMusicIcon(musicToggleUnlock, false);
-        if (musicToggleMain) updateMusicIcon(musicToggleMain, false);
+        if (bgMusic) {
+            bgMusic.pause();
+            isMusicPlaying = false;
+            updateMusicIcon(musicToggleUnlock, false);
+            if (musicToggleMain) updateMusicIcon(musicToggleMain, false);
+        }
     }
 
     // Переключение музыки
@@ -120,7 +122,7 @@ const langBtns = document.querySelectorAll('.lang-btn');
     // Вешаем обработчик на кнопку разблокировки
     if (musicToggleUnlock) {
         musicToggleUnlock.addEventListener('click', (e) => {
-            e.stopPropagation(); // Чтобы не триггерить другие события
+            e.stopPropagation();
             toggleMusic();
         });
     }
@@ -137,7 +139,6 @@ const langBtns = document.querySelectorAll('.lang-btn');
     const unlockBtnForMusic = document.getElementById('unlockBtn');
     if (unlockBtnForMusic) {
         unlockBtnForMusic.addEventListener('click', () => {
-            // Небольшая задержка, чтобы звук разблокировки не конфликтовал
             setTimeout(() => {
                 if (!isMusicPlaying) {
                     playMusic();
@@ -146,12 +147,11 @@ const langBtns = document.querySelectorAll('.lang-btn');
         });
     }
 
-    // Также пробуем включить при первом любом взаимодействии (на случай, если unlockBtn не сработал)
+    // Также пробуем включить при первом любом взаимодействии
     const anyInteraction = () => {
         if (!isMusicPlaying) {
             playMusic();
         }
-        // Удаляем обработчики после первого взаимодействия
         document.removeEventListener('click', anyInteraction);
         document.removeEventListener('touchstart', anyInteraction);
     };
@@ -183,7 +183,25 @@ unlockBtn.addEventListener('click', () => {
 
 async function loadGuestsFromDB() {
     try {
+        // Skip fetch if on local server without backend support
+        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+            console.warn('Local development: skipping guest fetch (no backend)');
+            const tbody = document.getElementById('guestsTableBody');
+            if (tbody) {
+                tbody.innerHTML = '<tr class="empty-row"><td colspan="6">Mahalliy serverda mehmonlar ro\'yxati mavjud emas</td></tr>';
+                resetStatsToZero();
+            }
+            return;
+        }
+
         const response = await fetch('get_guests');
+        
+        // Check if response is OK and has JSON content type
+        const contentType = response.headers.get("content-type");
+        if (!response.ok || !contentType || !contentType.includes("application/json")) {
+            throw new Error('Server returned non-JSON response or error');
+        }
+
         const result = await response.json();
 
         if (result.success && result.guests) {
@@ -327,7 +345,7 @@ function escapeHtml(str) {
 
 // ========== TIMER ==========
 function updateLuxuryTimer() {
-    const targetDate = new Date(2026, 5, 21, 17, 0, 0);
+    const targetDate = new Date(2026, 5, 21, 19, 0, 0);
     const now = new Date();
     const diff = targetDate - now;
 
@@ -416,7 +434,7 @@ langBtns.forEach(btn => {
                 instruction: 'Нажмите на замок,',
                 instruction1: 'чтобы открыть приглашение',
                 heros1: 'Приглашение на свадьбу',
-                heros2: '21 июня 2026 | 17:00',
+                heros2: '21 июня 2026 | 19:00',
                 herodate: 'Ваше присутствие — самый дорогой подарок для нас',
                 timerlabel: 'ВРЕМЯ ДО СВАДЬБЫ',
                 unit11: 'дней',
@@ -443,17 +461,9 @@ langBtns.forEach(btn => {
                 detcd4: 'Ресторан «MOHINUR-3», Самарканд, Пайарык',
                 detcd5: 'Открыть на карте →',
                 detcd6: 'Время',
-                detcd7: '21 июня 2026 года, 17:00',
-                detcd8: 'Двери открыты с 16:30',
+                detcd7: '21 июня 2026 года, 19:00',
+                detcd8: 'Двери открыты с 18:30',
                 detcd14: 'Ваша улыбка — наше главное украшение. Заранее благодарим за вклад в создание атмосферы уважения и тепла.',
-                galler1: 'АДРЕС РЕСТОРАНА',
-                galler2: 'Фотографии ресторана',
-                galler3: 'Внешний вид',
-                galler4: 'Ресторан «MOHINUR-3»',
-                galler5: 'Самарканд, Пайарык',
-                galler6: 'Интерьер',
-                galler7: 'Роскошный интерьер',
-                galler8: 'Светлые и просторные залы, уютная атмосфера для гостей',
                 locat1: 'РАСПОЛОЖЕНИЕ И МАРШРУТ',
                 locat2: 'Найдите нас',
                 locat3: 'Ресторан «MOHINUR-3»',
@@ -464,10 +474,6 @@ langBtns.forEach(btn => {
                 gift22: 'Просьбы к гостям',
                 gift33: 'Для нас самое главное — ваше присутствие рядом с нами в этот свадебный вечер. Мы искренне ценим ваше внимание и участие!',
                 gift44: 'Если вы хотите порадовать нас ещё больше, будем очень признательны, если вы выразите своё внимание к нашей молодой семье в виде конверта.',
-                gift55: 'Уважаемые гости!',
-                gift66: 'Просим вас не дарить деньги во время танцев. Ваша искренняя улыбка и добрые пожелания — самый ценный подарок для нас.',
-                gift77: 'Для нашего праздника создан специальный Telegram-группа. Там вы сможете ознакомиться с дополнительной информацией, а также делиться радостными моментами свадебного дня через фото и видео.',
-                gift88: 'Перейти в Telegram',
                 clos11: 'Добро пожаловать на свадьбу!',
                 clos22: 'Выражаем искреннюю благодарность за то,',
                 clos33: 'что вы с нами в этот счастливый день.',
@@ -477,7 +483,7 @@ langBtns.forEach(btn => {
                 share33: 'Поделитесь приглашением с близкими — они тоже приглашены на наш праздник!',
                 share44: 'Копировать',
                 share55: 'Ссылка скопирована!',
-                date11: '21 июня 2026 | 17:00',
+                date11: '21 июня 2026 | 19:00',
                 date22: 'Спасибо за то, что были с нами в этот самый прекрасный день!'
             },
             uz: {
@@ -485,7 +491,7 @@ langBtns.forEach(btn => {
                 instruction: 'Qulfchani bosib,',
                 instruction1: 'taklifnomani oching',
                 heros1: 'To‘yga taklifnoma',
-                heros2: '21-iyun 2026 | 17:00',
+                heros2: '21-iyun 2026 | 19:00',
                 herodate: 'Sizning ishtirokingiz — biz uchun eng qadrli sovg‘a',
                 timerlabel: 'TO‘YGACHA QOLGAN VAQT',
                 unit11: 'kun',
@@ -512,17 +518,9 @@ langBtns.forEach(btn => {
                 detcd4: '“MOHINUR-3” restorani, Payariq, Samarqand',
                 detcd5: 'Xaritada ochish →',
                 detcd6: 'Vaqt',
-                detcd7: '2026-yil 21-iyun, soat 17:00',
-                detcd8: 'Eshiklar 16:30 dan ochiq',
+                detcd7: '2026-yil 21-iyun, soat 19:00',
+                detcd8: 'Eshiklar 18:30 dan ochiq',
                 detcd14: 'Sizning tabassumingiz — bizning eng katta bezakimiz. Hurmat va mehr muhitini yaratishga qo‘shilgan hissangiz uchun oldindan rahmat.',
-                galler1: 'RESTORAN MANZILI',
-                galler2: 'Restoran fotosuratlari',
-                galler3: 'Tashqi ko‘rinish',
-                galler4: '“MOHINUR-3” restorani',
-                galler5: 'Payariq, Samarqand',
-                galler6: 'Ichki makon',
-                galler7: 'Hashamatli ichki makon',
-                galler8: 'Yorug‘ va keng zallar, mehmonlar uchun qulay muhit',
                 locat1: 'JOYLASHUV VA YO‘NALISH',
                 locat2: 'Bizni toping',
                 locat3: '“MOHINUR-3” restorani',
@@ -533,10 +531,6 @@ langBtns.forEach(btn => {
                 gift22: 'Mehmonlarga iltimoslar',
                 gift33: 'Biz uchun eng muhimi — sizning to‘y oqshomida yonimizda bo‘lishingiz. E’tiboringiz va ishtirokingizni chin qalbdan qadrlaymiz!',
                 gift44: 'Agar bizni yanada xursand qilmoqchi bo‘lsangiz, yosh oilamizga ko‘rsatgan e’tiboringizni konvert shaklida bildirsangiz, bundan benihoya mamnun bo‘lamiz.',
-                gift55: 'Hurmatli mehmonlar!',
-                gift66: 'Raqs vaqtida pul qistirmasligingizni iltimos qilamiz. Sizning samimiy tabassumingiz va ezgu tilaklaringiz biz uchun eng qimmatli hadyadir.',
-                gift77: 'Bayramimiz uchun maxsus Telegram guruhi tashkil etilgan. U yerda qo‘shimcha ma’lumotlar bilan tanishishingiz hamda to‘y kunidagi quvonchli lahzalarni foto va videolar orqali ulashishingiz mumkin.',
-                gift88: 'Telegramga o‘tish',
                 clos11: 'To‘yga xush kelibsiz!',
                 clos22: 'Bu baxtli kunda biz bilan birga bo‘lganingiz uchun',
                 clos33: 'samimiy minnatdorchilik bildiramiz.',
@@ -546,7 +540,7 @@ langBtns.forEach(btn => {
                 share33: 'Taklifnomani yaqinlaringizga ham ulashing — ular ham bizning bayramimizga taklif qilingan!',
                 share44: 'Nusxa olish',
                 share55: 'Havola nusxalandi!',
-                date11: '21-iyun 2026 | 17:00',
+                date11: '21-iyun 2026 | 19:00',
                 date22: 'Eng go‘zal kunda biz bilan birga bo‘lganingiz uchun tashakkur!'
             },
             uzk: {
@@ -554,7 +548,7 @@ langBtns.forEach(btn => {
                 instruction: 'Қулфчани босиб,',
                 instruction1: 'таклифномани очинг',
                 heros1: 'Тўйга таклифнома',
-                heros2: '21 июнь 2026 | 17:00',
+                heros2: '21 июнь 2026 | 19:00',
                 herodate: 'Сизнинг иштирокингиз — биз учун энг қадрли совға',
                 timerlabel: 'ТЎЙГАЧА ҚОЛГАН ВАҚТ',
                 unit11: 'кун',
@@ -581,17 +575,9 @@ langBtns.forEach(btn => {
                 detcd4: '«MOHINUR-3» ресторани, Самарқанд, Пайариқ',
                 detcd5: 'Харитада очиш →',
                 detcd6: 'Вақт',
-                detcd7: '2026-йил 21-июнь, соат 17:00',
-                detcd8: 'Эшиклар 16:30 дан очиқ',
+                detcd7: '2026-йил 21-июнь, соат 19:00',
+                detcd8: 'Эшиклар 18:30 дан очиқ',
                 detcd14: 'Сизнинг табассумингиз — бизнинг энг катта безагимиз. Ҳурмат ва меҳр муҳитини яратишга қўшган ҳиссангиз учун олдиндан раҳмат.',
-                galler1: 'РЕСТОРАН МАНЗИЛИ',
-                galler2: 'Ресторан фотосуратлари',
-                galler3: 'Ташқи кўриниш',
-                galler4: '«MOHINUR-3» ресторани',
-                galler5: 'Самарқанд, Пайариқ',
-                galler6: 'Ички макон',
-                galler7: 'Ҳашаматли ички макон',
-                galler8: 'Ёруғ ва кенг заллар, меҳмонлар учун қулай муҳит',
                 locat1: 'ЖОЙЛАШУВ ВА ЙЎНАЛИШ',
                 locat2: 'Бизни топинг',
                 locat3: '«MOHINUR-3» ресторани',
@@ -602,10 +588,6 @@ langBtns.forEach(btn => {
                 gift22: 'Меҳмонларга илтимослар',
                 gift33: 'Биз учун энг муҳими — сизнинг тўй оқшомида ёнимизда бўлишингиз. Эътиборингиз ва иштирокингизни чин қалбдан қадрлаймиз!',
                 gift44: 'Агар бизни янада хурсанд қилмоқчи бўлсангиз, ёш оиламизга кўрсатган эътиборингизни конверт шаклида билдирсангиз, бундан беҳад мамнун бўламиз.',
-                gift55: 'Ҳурматли меҳмонлар!',
-                gift66: 'Рақс вақтида пул қистирмаслигингизни илтимос қиламиз. Сизнинг самимий табассумингиз ва эзгу тилакларингиз биз учун энг қимматли ҳадядир.',
-                gift77: 'Байрамимиз учун махсус Telegram гуруҳи ташкил этилган. У ерда қўшимча маълумотлар билан танишишингиз ҳамда тўй кунидаги қувончли лаҳзаларни фото ва видеолар орқали улашишингиз мумкин.',
-                gift88: 'Telegramга ўтиш',
                 clos11: 'Тўйга хуш келибсиз!',
                 clos22: 'Бу бахтли кунда биз билан бирга бўлганингиз учун',
                 clos33: 'самимий миннатдорчилик билдирамиз.',
@@ -615,7 +597,7 @@ langBtns.forEach(btn => {
                 share33: 'Таклифномани яқинларингизга ҳам улашинг — улар ҳам бизнинг байрамимизга таклиф қилинган!',
                 share44: 'Нусха олиш',
                 share55: 'Ҳавола нусхаланди!',
-                date11: '21 июнь 2026 | 17:00',
+                date11: '21 июнь 2026 | 19:00',
                 date22: 'Энг гўзал кунда биз билан бирга бўлганингиз учун ташаккур!'
             },
             en: {
@@ -623,7 +605,7 @@ langBtns.forEach(btn => {
                 instruction: 'Click the lock',
                 instruction1: 'to open the invitation',
                 heros1: 'Wedding Invitation',
-                heros2: 'June 21, 2026 | 17:00',
+                heros2: 'June 21, 2026 | 19:00',
                 herodate: 'Your presence is the most precious gift to us',
                 timerlabel: 'TIME REMAINING UNTIL THE WEDDING',
                 unit11: 'days',
@@ -650,18 +632,10 @@ langBtns.forEach(btn => {
                 detcd4: '“MOHINUR-3” Restaurant, Payariq, Samarkand',
                 detcd5: 'Open on map →',
                 detcd6: 'Time',
-                detcd7: 'June 21, 2026, 17:00',
-                detcd8: 'Doors open from 16:30',
-                detcd14: 'Your smile is our greatest decoration. Thank you in advance for contributing to an atmosphere of respect and warmth.',
-                galler1: 'RESTAURANT ADDRESS',
-                galler2: 'Restaurant photos',
-                galler3: 'Exterior',
-                galler4: '“MOHINUR-3” restaurant',
-                galler5: 'Payariq, Samarkand',
-                galler6: 'Interior',
-                galler7: 'Luxurious interior',
-                galler8: 'Bright and spacious halls, comfortable atmosphere for guests',
-                locat1: 'LOCATION AND DIRECTIONS',
+                detcd7: 'June 21, 2026, 19:00',
+                detcd8: 'Doors open from 18:30',
+                detcd14: 'Your smile is our greatest decoration. Thank you in advance for your contribution to creating an atmosphere of respect and warmth.',
+                locat1: 'LOCATION AND ROUTE',
                 locat2: 'Find us',
                 locat3: '“MOHINUR-3” restaurant',
                 locat4: 'Payariq, Samarkand',
@@ -671,10 +645,6 @@ langBtns.forEach(btn => {
                 gift22: 'Requests to Guests',
                 gift33: 'The most important thing for us is your presence by our side on this special wedding evening. We truly appreciate your attention and participation!',
                 gift44: 'If you would like to make us even happier, we would be sincerely grateful if you present your gift to our young family in the form of an envelope.',
-                gift55: 'Dear guests!',
-                gift66: 'We kindly ask you not to give money during the dances. Your sincere smiles and warm wishes are the most valuable gift for us.',
-                gift77: 'A special Telegram group has been created for our celebration. There you can find additional information and share joyful moments from the wedding day through photos and videos.',
-                gift88: 'Go to Telegram',
                 clos11: 'Welcome to the wedding!',
                 clos22: 'We express our sincere gratitude for',
                 clos33: 'being with us on this happy day.',
@@ -684,7 +654,7 @@ langBtns.forEach(btn => {
                 share33: 'Share the invitation with your loved ones — they are also invited to our celebration!',
                 share44: 'Copy',
                 share55: 'Link copied!',
-                date11: 'June 21, 2026 | 17:00',
+                date11: 'June 21, 2026 | 19:00',
                 date22: 'Thank you for being with us on this most beautiful day!'
             }
         };
@@ -725,14 +695,6 @@ langBtns.forEach(btn => {
             document.querySelector('.detcd7').textContent = t.detcd7;
             document.querySelector('.detcd8').textContent = t.detcd8;
             document.querySelector('.detcd14').textContent = t.detcd14;
-            document.querySelector('.galler1').textContent = t.galler1;
-            document.querySelector('.galler2').textContent = t.galler2;
-            document.querySelector('.galler3').textContent = t.galler3;
-            document.querySelector('.galler4').textContent = t.galler4;
-            document.querySelector('.galler5').textContent = t.galler5;
-            document.querySelector('.galler6').textContent = t.galler6;
-            document.querySelector('.galler7').textContent = t.galler7;
-            document.querySelector('.galler8').textContent = t.galler8;
             document.querySelector('.locat1').textContent = t.locat1;
             document.querySelector('.locat2').textContent = t.locat2;
             document.querySelector('.locat3').textContent = t.locat3;
@@ -743,10 +705,6 @@ langBtns.forEach(btn => {
             document.querySelector('.gift22').textContent = t.gift22;
             document.querySelector('.gift33').textContent = t.gift33;
             document.querySelector('.gift44').textContent = t.gift44;
-            document.querySelector('.gift55').textContent = t.gift55;
-            document.querySelector('.gift66').textContent = t.gift66;
-            document.querySelector('.gift77').textContent = t.gift77;
-            document.querySelector('.gift88').textContent = t.gift88;
             document.querySelector('.clos11').textContent = t.clos11;
             document.querySelector('.clos22').textContent = t.clos22;
             document.querySelector('.clos33').textContent = t.clos33;
@@ -953,6 +911,12 @@ function translateRsvpSection(lang) {
                     },
                     body: JSON.stringify(formData)
                 });
+
+                // Check if response is OK and has JSON content type
+                const contentType = response.headers.get("content-type");
+                if (!response.ok || !contentType || !contentType.includes("application/json")) {
+                    throw new Error('Server returned non-JSON response or error');
+                }
 
                 const result = await response.json();
 

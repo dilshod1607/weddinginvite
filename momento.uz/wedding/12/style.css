@@ -108,6 +108,8 @@ body {
     inset: 0;
     pointer-events: none;
     overflow: hidden;
+    opacity: 1; /* Make visible by default */
+    transition: opacity 1s ease;
 }
 
 .bokeh-orb {
