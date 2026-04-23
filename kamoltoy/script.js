@@ -946,12 +946,8 @@ function translateRsvpSection(lang) {
 })();
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Track visit (only once per session to avoid spam on refresh)
-    if (!sessionStorage.getItem('visited')) {
-        fetch('track_visit', { method: 'POST' })
-            .then(() => sessionStorage.setItem('visited', 'true'))
-            .catch(() => {});
-    }
+    // Track unique visit
+    fetch('track_visit', { method: 'POST' }).catch(() => {});
 
     // Existing code...
     const footerTrigger = document.querySelector('.footer-names');

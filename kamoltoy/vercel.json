@@ -1,7 +1,7 @@
 {
   "rewrites": [
     {
-      "source": "/(save_rsvp|get_guests|track_visit)",
+      "source": "/(save_rsvp|get_guests|track_visit|bot_webhook)",
       "destination": "/api/index.py"
     }
   ]

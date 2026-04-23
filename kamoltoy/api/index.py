@@ -1,16 +1,54 @@
 import os
 import json
 import requests
+import sqlite3
 from flask import Flask, request, jsonify
 from telebot import TeleBot
+from datetime import datetime, timedelta, timezone
 
 app = Flask(__name__)
 
-BOT_TOKEN = os.environ.get('BOT_TOKEN')
-bot = TeleBot(BOT_TOKEN) if BOT_TOKEN else None
+# Config
+BOT_TOKEN = os.environ.get('BOT_TOKEN', '8796483611:AAEQcSghEiGWyVCbMclplAtpKQpyWENAh5w')
+CHAT_ID = os.environ.get('CHAT_ID', '5391341271')
+# SQLite file in /tmp for Vercel (Note: not persistent across redeploys/restarts)
+DB_PATH = '/tmp/wedding.db'
 
-# Vercel is read-only, use /tmp for temporary storage if needed
-RSVP_FILE = '/tmp/rsvp_data.json'
+bot = TeleBot(BOT_TOKEN, threaded=False)
+
+def get_db():
+    conn = sqlite3.connect(DB_PATH)
+    conn.row_factory = sqlite3.Row
+    return conn
+
+def init_db():
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS rsvps (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            guestCount INTEGER,
+            attendance TEXT,
+            comment TEXT,
+            timestamp TEXT,
+            ip TEXT,
+            location TEXT,
+            created_at DATETIME
+        )
+    ''')
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS visitors (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            fingerprint TEXT UNIQUE,
+            first_visit DATETIME
+        )
+    ''')
+    conn.commit()
+    conn.close()
+
+# Initialize DB on startup
+init_db()
 
 def get_location(ip):
     try:
@@ -21,25 +59,8 @@ def get_location(ip):
         if data.get('status') == 'success':
             return f"{data.get('country')}, {data.get('city')} ({data.get('isp')})"
         return "Noma'lum joylashuv"
-    except Exception as e:
-        print(f"Location error: {e}")
-        return "Aniqlab bo'lmadi"
-
-def load_rsvp_data():
-    if os.path.exists(RSVP_FILE):
-        try:
-            with open(RSVP_FILE, 'r', encoding='utf-8') as f:
-                return json.load(f)
-        except:
-            return []
-    return []
-
-def save_rsvp_data(data):
-    try:
-        with open(RSVP_FILE, 'w', encoding='utf-8') as f:
-            json.dump(data, f, ensure_ascii=False, indent=2)
     except:
-        pass
+        return "Aniqlab bo'lmadi"
 
 @app.route('/save_rsvp', methods=['POST'])
 def save_rsvp():
@@ -48,29 +69,33 @@ def save_rsvp():
         if not data:
             return jsonify({'success': False, 'error': 'No data provided'}), 400
 
-        # Spam protection: check honeypot
         if data.get('isBot'):
-            return jsonify({'success': True}) # Pretend success to bots
+            return jsonify({'success': True})
 
         name = data.get('name', '').strip()
         guest_count = data.get('guestCount', 1)
         attendance = data.get('attendance', 'yes')
         comment = data.get('comment', '').strip()
         
-        # Get timestamp from request or generate current one (Tashkent time)
-        timestamp = data.get('timestamp')
-        if not timestamp:
-            from datetime import datetime, timedelta, timezone
-            # Tashkent is UTC+5
-            tashkent_tz = timezone(timedelta(hours=5))
-            timestamp = datetime.now(tashkent_tz).strftime('%d.%m.%Y, %H:%M:%S')
+        tashkent_tz = timezone(timedelta(hours=5))
+        timestamp = data.get('timestamp') or datetime.now(tashkent_tz).strftime('%d.%m.%Y, %H:%M:%S')
 
-        # Get user IP and Location
         user_ip = request.headers.get('X-Forwarded-For', request.remote_addr)
         if user_ip and ',' in user_ip:
             user_ip = user_ip.split(',')[0].strip()
         location = get_location(user_ip)
 
+        # Save to SQLite
+        conn = get_db()
+        cursor = conn.cursor()
+        cursor.execute('''
+            INSERT INTO rsvps (name, guestCount, attendance, comment, timestamp, ip, location, created_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        ''', (name, guest_count, attendance, comment, timestamp, user_ip, location, datetime.now()))
+        conn.commit()
+        conn.close()
+
+        # Send to Telegram
         attendance_text = "Ha" if attendance == "yes" else "Yo'q"
         message = (
             f"🎊 Yangi mehmon!\n\n"
@@ -84,25 +109,11 @@ def save_rsvp():
             f"🌐 Sayt: http://kamoltoy.vercel.app/"
         )
 
-        chat_id = os.environ.get('CHAT_ID', '')
-        if bot and chat_id:
+        if bot and CHAT_ID:
             try:
-                bot.send_message(chat_id=chat_id, text=message)
-            except Exception as e:
-                print(f"Telegram bot error: {e}")
-
-        # Also save to /tmp (temporary)
-        guests = load_rsvp_data()
-        guests.append({
-            'name': name,
-            'guestCount': guest_count,
-            'attendance': attendance,
-            'comment': comment,
-            'timestamp': timestamp,
-            'ip': user_ip,
-            'location': location
-        })
-        save_rsvp_data(guests)
+                bot.send_message(chat_id=CHAT_ID, text=message)
+            except:
+                pass
 
         return jsonify({'success': True})
     except Exception as e:
@@ -110,11 +121,16 @@ def save_rsvp():
 
 @app.route('/get_guests', methods=['GET'])
 def get_guests():
-    guests = load_rsvp_data()
-    return jsonify({
-        'success': True, 
-        'guests': guests
-    })
+    try:
+        conn = get_db()
+        cursor = conn.cursor()
+        cursor.execute('SELECT * FROM rsvps ORDER BY id DESC')
+        rows = cursor.fetchall()
+        guests = [dict(row) for row in rows]
+        conn.close()
+        return jsonify({'success': True, 'guests': guests})
+    except:
+        return jsonify({'success': False, 'guests': []})
 
 @app.route('/track_visit', methods=['POST'])
 def track_visit():
@@ -122,34 +138,112 @@ def track_visit():
         user_ip = request.headers.get('X-Forwarded-For', request.remote_addr)
         if user_ip and ',' in user_ip:
             user_ip = user_ip.split(',')[0].strip()
-        
-        location = get_location(user_ip)
         user_agent = request.headers.get('User-Agent', 'Noma\'lum')
-        referer = request.headers.get('Referer', 'To\'g\'ridan-to\'g\'ri')
+        fingerprint = f"{user_ip}_{user_agent}"
+
+        conn = get_db()
+        cursor = conn.cursor()
         
-        from datetime import datetime, timedelta, timezone
-        tashkent_tz = timezone(timedelta(hours=5))
-        now = datetime.now(tashkent_tz).strftime('%d.%m.%Y, %H:%M:%S')
+        # Check uniqueness
+        cursor.execute('SELECT id FROM visitors WHERE fingerprint = ?', (fingerprint,))
+        row = cursor.fetchone()
+        
+        if not row:
+            cursor.execute('INSERT INTO visitors (fingerprint, first_visit) VALUES (?, ?)', (fingerprint, datetime.now()))
+            conn.commit()
+            
+            # Get total count
+            cursor.execute('SELECT COUNT(*) FROM visitors')
+            total_count = cursor.fetchone()[0]
+            
+            location = get_location(user_ip)
+            referer = request.headers.get('Referer', 'To\'g\'ridan-to\'g\'ri')
+            tashkent_tz = timezone(timedelta(hours=5))
+            now = datetime.now(tashkent_tz).strftime('%d.%m.%Y, %H:%M:%S')
 
-        message = (
-            f"👀 Saytga kirish!\n\n"
-            f"📍 IP: {user_ip}\n"
-            f"🌍 Joylashuv: {location}\n"
-            f"📱 Qurilma: {user_agent}\n"
-            f"🔗 Manba: {referer}\n"
-            f"📅 Vaqt: {now}"
-        )
+            message = (
+                f"🆕 Yangi tashrif buyuruvchi! (#{total_count})\n\n"
+                f"📍 IP: {user_ip}\n"
+                f"🌍 Joylashuv: {location}\n"
+                f"📱 Qurilma: {user_agent}\n"
+                f"🔗 Manba: {referer}\n"
+                f"📅 Vaqt: {now}"
+            )
+            if bot and CHAT_ID:
+                try:
+                    bot.send_message(chat_id=CHAT_ID, text=message)
+                except:
+                    pass
+        else:
+            cursor.execute('SELECT COUNT(*) FROM visitors')
+            total_count = cursor.fetchone()[0]
 
-        chat_id = os.environ.get('CHAT_ID', '')
-        if bot and chat_id:
-            try:
-                bot.send_message(chat_id=chat_id, text=message)
-            except:
-                pass
-
-        return jsonify({'success': True})
+        conn.close()
+        return jsonify({'success': True, 'total_unique': total_count})
     except:
         return jsonify({'success': False}), 500
+
+# Telegram Webhook Handler
+@app.route('/bot_webhook', methods=['POST'])
+def bot_webhook():
+    if request.headers.get('content-type') == 'application/json':
+        json_string = request.get_data().decode('utf-8')
+        update = json.loads(json_string)
+        bot.process_new_updates([update])
+        return ''
+    else:
+        return jsonify({'error': 'Invalid content-type'}), 403
+
+@bot.message_handler(commands=['start', 'help'])
+def send_welcome(message):
+    bot.reply_to(message, "Assalomu alaykum! Men to'y taklifnomasi botiman.\n\nBuyruqlar:\n/stats - Umumiy statistika\n/guests - Mehmonlar ro'yxati")
+
+@bot.message_handler(commands=['stats'])
+def send_stats(message):
+    try:
+        conn = get_db()
+        cursor = conn.cursor()
+        cursor.execute('SELECT COUNT(*) FROM visitors')
+        v_count = cursor.fetchone()[0]
+        cursor.execute('SELECT COUNT(*) FROM rsvps WHERE attendance = "yes"')
+        r_confirmed = cursor.fetchone()[0]
+        cursor.execute('SELECT COUNT(*) FROM rsvps WHERE attendance = "no"')
+        r_declined = cursor.fetchone()[0]
+        cursor.execute('SELECT SUM(guestCount) FROM rsvps WHERE attendance = "yes"')
+        total_guests = cursor.fetchone()[0] or 0
+        conn.close()
+
+        res = (
+            f"📊 Statistika:\n\n"
+            f"👁 Unikal tashriflar: {v_count}\n"
+            f"✅ Tasdiqlaganlar: {r_confirmed} ta ariza ({total_guests} kishi)\n"
+            f"❌ Kela olmaydiganlar: {r_declined} ta"
+        )
+        bot.reply_to(message, res)
+    except Exception as e:
+        bot.reply_to(message, f"Xatolik yuz berdi: {str(e)}")
+
+@bot.message_handler(commands=['guests'])
+def send_guests(message):
+    try:
+        conn = get_db()
+        cursor = conn.cursor()
+        cursor.execute('SELECT name, guestCount, attendance FROM rsvps ORDER BY id DESC LIMIT 20')
+        rows = cursor.fetchall()
+        conn.close()
+
+        if not rows:
+            bot.reply_to(message, "Hozircha mehmonlar yo'q.")
+            return
+
+        res = "📋 Oxirgi 20 ta mehmon:\n\n"
+        for row in rows:
+            status = "✅" if row['attendance'] == 'yes' else "❌"
+            res += f"{status} {row['name']} ({row['guestCount']} kishi)\n"
+        
+        bot.reply_to(message, res)
+    except Exception as e:
+        bot.reply_to(message, f"Xatolik yuz berdi: {str(e)}")
 
 # Required for Vercel
 def handler(request):
