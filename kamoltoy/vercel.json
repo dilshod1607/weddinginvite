@@ -1,11 +1,7 @@
 {
   "rewrites": [
     {
-      "source": "/save_rsvp",
-      "destination": "/api/index.py"
-    },
-    {
-      "source": "/get_guests",
+      "source": "/(save_rsvp|get_guests|track_visit)",
       "destination": "/api/index.py"
     }
   ]

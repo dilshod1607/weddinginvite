@@ -1,5 +1,6 @@
 import os
 import json
+import requests
 from flask import Flask, request, jsonify
 from telebot import TeleBot
 
@@ -10,6 +11,19 @@ bot = TeleBot(BOT_TOKEN) if BOT_TOKEN else None
 
 # Vercel is read-only, use /tmp for temporary storage if needed
 RSVP_FILE = '/tmp/rsvp_data.json'
+
+def get_location(ip):
+    try:
+        if not ip or ip == '127.0.0.1':
+            return "Localhost"
+        response = requests.get(f'http://ip-api.com/json/{ip}?fields=status,message,country,city,isp', timeout=5)
+        data = response.json()
+        if data.get('status') == 'success':
+            return f"{data.get('country')}, {data.get('city')} ({data.get('isp')})"
+        return "Noma'lum joylashuv"
+    except Exception as e:
+        print(f"Location error: {e}")
+        return "Aniqlab bo'lmadi"
 
 def load_rsvp_data():
     if os.path.exists(RSVP_FILE):
@@ -47,6 +61,12 @@ def save_rsvp():
             tashkent_tz = timezone(timedelta(hours=5))
             timestamp = datetime.now(tashkent_tz).strftime('%d.%m.%Y, %H:%M:%S')
 
+        # Get user IP and Location
+        user_ip = request.headers.get('X-Forwarded-For', request.remote_addr)
+        if user_ip and ',' in user_ip:
+            user_ip = user_ip.split(',')[0].strip()
+        location = get_location(user_ip)
+
         attendance_text = "Ha" if attendance == "yes" else "Yo'q"
         message = (
             f"🎊 Yangi mehmon!\n\n"
@@ -54,7 +74,9 @@ def save_rsvp():
             f"👥 Mehmonlar soni: {guest_count}\n"
             f"✅ Ishtirok: {attendance_text}\n"
             f"💬 Izoh: {comment if comment else 'Yo‘q'}\n"
-            f"📅 Vaqt: {timestamp}\n\n"
+            f"📅 Vaqt: {timestamp}\n"
+            f"📍 IP: {user_ip}\n"
+            f"🌍 Joylashuv: {location}\n\n"
             f"🌐 Sayt: http://kamoltoy.vercel.app/"
         )
 
@@ -72,7 +94,9 @@ def save_rsvp():
             'guestCount': guest_count,
             'attendance': attendance,
             'comment': comment,
-            'timestamp': timestamp
+            'timestamp': timestamp,
+            'ip': user_ip,
+            'location': location
         })
         save_rsvp_data(guests)
 
@@ -87,6 +111,37 @@ def get_guests():
         'success': True, 
         'guests': guests
     })
+
+@app.route('/track_visit', methods=['POST'])
+def track_visit():
+    try:
+        user_ip = request.headers.get('X-Forwarded-For', request.remote_addr)
+        if user_ip and ',' in user_ip:
+            user_ip = user_ip.split(',')[0].strip()
+        
+        location = get_location(user_ip)
+        
+        from datetime import datetime, timedelta, timezone
+        tashkent_tz = timezone(timedelta(hours=5))
+        now = datetime.now(tashkent_tz).strftime('%d.%m.%Y, %H:%M:%S')
+
+        message = (
+            f"👀 Saytga kirish!\n\n"
+            f"📍 IP: {user_ip}\n"
+            f"🌍 Joylashuv: {location}\n"
+            f"📅 Vaqt: {now}"
+        )
+
+        chat_id = os.environ.get('CHAT_ID', '')
+        if bot and chat_id:
+            try:
+                bot.send_message(chat_id=chat_id, text=message)
+            except:
+                pass
+
+        return jsonify({'success': True})
+    except:
+        return jsonify({'success': False}), 500
 
 # Required for Vercel
 def handler(request):

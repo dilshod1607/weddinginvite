@@ -944,6 +944,10 @@ function translateRsvpSection(lang) {
 })();
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Track visit
+    fetch('track_visit', { method: 'POST' }).catch(() => {});
+
+    // Existing code...
     const footerTrigger = document.querySelector('.footer-names');
     const guestSection = document.getElementById('guests123');
 
