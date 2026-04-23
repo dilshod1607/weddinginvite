@@ -2,8 +2,9 @@ import os
 import json
 import requests
 import sqlite3
+import telebot
 from flask import Flask, request, jsonify
-from telebot import TeleBot
+from telebot import TeleBot, types
 from datetime import datetime, timedelta, timezone
 
 app = Flask(__name__)
@@ -193,7 +194,8 @@ def bot_webhook():
     if request.headers.get('content-type') == 'application/json':
         try:
             json_string = request.get_data().decode('utf-8')
-            update = telebot.types.Update.de_json(json_string)
+            print(f"Received update: {json_string}")
+            update = types.Update.de_json(json_string)
             bot.process_new_updates([update])
             return 'OK', 200
         except Exception as e:
