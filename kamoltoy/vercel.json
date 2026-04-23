@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/save_rsvp",
+      "destination": "/api/index.py"
+    },
+    {
+      "source": "/get_guests",
+      "destination": "/api/index.py"
+    }
+  ]
+}
