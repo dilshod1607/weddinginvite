@@ -5,8 +5,8 @@ from telebot import TeleBot
 
 app = Flask(__name__)
 
-BOT_TOKEN = os.environ.get('BOT_TOKEN', '8796483611:AAEQcSghEiGWyVCbMclplAtpKQpyWENAh5w')
-bot = TeleBot(BOT_TOKEN)
+BOT_TOKEN = os.environ.get('BOT_TOKEN')
+bot = TeleBot(BOT_TOKEN) if BOT_TOKEN else None
 
 # Vercel is read-only, use /tmp for temporary storage if needed
 RSVP_FILE = '/tmp/rsvp_data.json'
@@ -51,11 +51,12 @@ def save_rsvp():
             f"🌐 Sayt: http://kamoltoy.vercel.app/"
         )
 
-        chat_id = os.environ.get('CHAT_ID', '5391341271')
-        try:
-            bot.send_message(chat_id=chat_id, text=message)
-        except Exception as e:
-            print(f"Telegram bot error: {e}")
+        chat_id = os.environ.get('CHAT_ID', '')
+        if bot and chat_id:
+            try:
+                bot.send_message(chat_id=chat_id, text=message)
+            except Exception as e:
+                print(f"Telegram bot error: {e}")
 
         # Also save to /tmp (temporary)
         guests = load_rsvp_data()
