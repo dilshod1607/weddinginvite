@@ -55,7 +55,7 @@ const langBtns = document.querySelectorAll('.lang-btn');
 
     function initAudio() {
         if (bgMusic) return;
-        bgMusic = new Audio('music123.mp3');
+        bgMusic = new Audio('./assets/music123.mp3');
         bgMusic.loop = true;
         bgMusic.volume = 0.5;
         bgMusic.preload = 'auto';

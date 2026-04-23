@@ -48,7 +48,7 @@ body {
     z-index: -1;
     width: 100%;
     height: 100%;
-    background-image: url('bg.webp');
+    background-image: url('./assets/bg.webp');
     /* 1. ОТКЛЮЧАЕМ ПОВТОРЕНИЕ */
     background-repeat: no-repeat;
     /* 2. ЦЕНТРИРУЕМ */
@@ -718,7 +718,7 @@ body {
     position: fixed;
     inset: 0;
     z-index: 999;
-    background-image: url('fon.webp');
+    background-image: url('./assets/fon.webp');
     background-size: cover;
     /* Растягивает фото, чтобы заполнить весь экран */
     background-position: center;
@@ -735,7 +735,7 @@ body {
 
 @media (orientation: portrait) {
     #unlock-screen {
-        background-image: url('fon.webp');
+        background-image: url('./assets/fon.webp');
     }
 }
 
@@ -743,7 +743,7 @@ body {
 
 @media (orientation: landscape) {
     #unlock-screen {
-        background-image: url('fon1.webp');
+        background-image: url('./assets/fon1.webp');
     }
 }
 
@@ -761,7 +761,7 @@ body {
     margin-right: 30px;
     width: 500px;
     height: 500px;
-    background-image: url('heart.svg');
+    background-image: url('./assets/heart.svg');
     /* Путь к локальному файлу */
     background-size: contain;
     background-repeat: no-repeat;
