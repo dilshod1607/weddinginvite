@@ -398,6 +398,9 @@
 
     <div class="rsvp-container fade-in">
       <form id="rsvpForm" class="rsvp-form">
+        <!-- Honeypot field for spam protection -->
+        <input type="text" name="website" style="display:none !important" tabindex="-1" autocomplete="off">
+        
         <!-- Mehmon ismi -->
         <div class="form-group">
           <label class="form-label">

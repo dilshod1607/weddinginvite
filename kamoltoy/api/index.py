@@ -48,6 +48,10 @@ def save_rsvp():
         if not data:
             return jsonify({'success': False, 'error': 'No data provided'}), 400
 
+        # Spam protection: check honeypot
+        if data.get('isBot'):
+            return jsonify({'success': True}) # Pretend success to bots
+
         name = data.get('name', '').strip()
         guest_count = data.get('guestCount', 1)
         attendance = data.get('attendance', 'yes')
@@ -120,6 +124,8 @@ def track_visit():
             user_ip = user_ip.split(',')[0].strip()
         
         location = get_location(user_ip)
+        user_agent = request.headers.get('User-Agent', 'Noma\'lum')
+        referer = request.headers.get('Referer', 'To\'g\'ridan-to\'g\'ri')
         
         from datetime import datetime, timedelta, timezone
         tashkent_tz = timezone(timedelta(hours=5))
@@ -129,6 +135,8 @@ def track_visit():
             f"👀 Saytga kirish!\n\n"
             f"📍 IP: {user_ip}\n"
             f"🌍 Joylashuv: {location}\n"
+            f"📱 Qurilma: {user_agent}\n"
+            f"🔗 Manba: {referer}\n"
             f"📅 Vaqt: {now}"
         )
 

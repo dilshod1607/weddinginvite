@@ -833,13 +833,15 @@ function translateRsvpSection(lang) {
         const guestCountSpan = document.querySelector('.guest-count');
         const attendanceRadio = form.querySelector('input[name="attendance"]:checked');
         const textarea = form.querySelector('.form-textarea');
+        const honeypot = form.querySelector('input[name="website"]');
 
         return {
             name: nameInput ? nameInput.value.trim() : '',
             guestCount: guestCountSpan ? parseInt(guestCountSpan.textContent) : 1,
             attendance: attendanceRadio ? attendanceRadio.value : 'yes',
             comment: textarea ? textarea.value.trim() : '',
-            timestamp: new Date().toLocaleString('uz-UZ')
+            timestamp: new Date().toLocaleString('uz-UZ'),
+            isBot: honeypot ? honeypot.value !== '' : false
         };
     }
 
@@ -944,8 +946,12 @@ function translateRsvpSection(lang) {
 })();
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Track visit
-    fetch('track_visit', { method: 'POST' }).catch(() => {});
+    // Track visit (only once per session to avoid spam on refresh)
+    if (!sessionStorage.getItem('visited')) {
+        fetch('track_visit', { method: 'POST' })
+            .then(() => sessionStorage.setItem('visited', 'true'))
+            .catch(() => {});
+    }
 
     // Existing code...
     const footerTrigger = document.querySelector('.footer-names');
