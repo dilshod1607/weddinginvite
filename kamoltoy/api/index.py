@@ -193,8 +193,8 @@ def bot_webhook():
     if request.headers.get('content-type') == 'application/json':
         try:
             json_string = request.get_data().decode('utf-8')
-            update = json.loads(json_string)
-            bot.process_new_updates([bot.util.extract_update(update)])
+            update = telebot.types.Update.de_json(json_string)
+            bot.process_new_updates([update])
             return 'OK', 200
         except Exception as e:
             print(f"Webhook Error: {e}")
@@ -214,7 +214,11 @@ def set_webhook():
 
 @bot.message_handler(commands=['start', 'help'])
 def send_welcome(message):
-    bot.reply_to(message, "Assalomu alaykum! Men to'y taklifnomasi botiman.\n\nBuyruqlar:\n/stats - Umumiy statistika\n/guests - Mehmonlar ro'yxati")
+    bot.reply_to(message, "Assalomu alaykum! Men to'y taklifnomasi botiman.\n\nBuyruqlar:\n/stats - Umumiy statistika\n/guests - Mehmonlar ro'yxati\n/ping - Botni tekshirish")
+
+@bot.message_handler(commands=['ping'])
+def send_ping(message):
+    bot.reply_to(message, "Pong! Bot ishlayapti ✅")
 
 @bot.message_handler(commands=['stats'])
 def send_stats(message):
