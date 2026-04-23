@@ -838,7 +838,8 @@ function translateRsvpSection(lang) {
             name: nameInput ? nameInput.value.trim() : '',
             guestCount: guestCountSpan ? parseInt(guestCountSpan.textContent) : 1,
             attendance: attendanceRadio ? attendanceRadio.value : 'yes',
-            comment: textarea ? textarea.value.trim() : ''
+            comment: textarea ? textarea.value.trim() : '',
+            timestamp: new Date().toLocaleString('uz-UZ')
         };
     }
 

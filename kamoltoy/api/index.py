@@ -38,7 +38,14 @@ def save_rsvp():
         guest_count = data.get('guestCount', 1)
         attendance = data.get('attendance', 'yes')
         comment = data.get('comment', '').strip()
-        timestamp = data.get('timestamp', '')
+        
+        # Get timestamp from request or generate current one (Tashkent time)
+        timestamp = data.get('timestamp')
+        if not timestamp:
+            from datetime import datetime, timedelta, timezone
+            # Tashkent is UTC+5
+            tashkent_tz = timezone(timedelta(hours=5))
+            timestamp = datetime.now(tashkent_tz).strftime('%d.%m.%Y, %H:%M:%S')
 
         attendance_text = "Ha" if attendance == "yes" else "Yo'q"
         message = (
