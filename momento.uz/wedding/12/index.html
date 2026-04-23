@@ -1,649 +1,839 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uz">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Основные SEO мета-теги -->
-    <meta name="description" content="Momento — цифровые приглашения для свадеб, дней рождения, юбилеев и особых событий. Уникальный дизайн, адаптивные шаблоны, поддержка 4 языков.">
-    <meta name="keywords" content="цифровые приглашения, свадебные приглашения, день рождения, юбилей, онлайн приглашения">
-    <meta name="author" content="Momento">
-    <!-- Open Graph (Facebook, VK, Telegram и др.) -->
-    <meta property="og:title" content="Kamol & Charos">
-    <meta property="og:description" content="Sizning ishtirokingiz — biz uchun eng qadrli sovg‘a">
-    <meta property="og:image" content="preview.webp">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://momento.uz/">
-    <meta property="og:locale" content="ru_RU">
-    <!-- основной язык страницы -->
-    <!-- Альтернативные языки -->
-    <meta property="og:locale:alternate" content="en_US">
-    <meta property="og:locale:alternate" content="uz_Latn_UZ">
-    <meta property="og:locale:alternate" content="uz_Cyrl_UZ">
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Kamol & Charos">
-    <meta name="twitter:description" content="Sizning ishtirokingiz — biz uchun eng qadrli sovg‘a">
-    <meta name="twitter:image" content="preview.webp">
-    <meta name="twitter:site" content="@Momento">
-    <meta name="twitter:creator" content="@Momento">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>Kamol & Charos</title>
-    <link rel="icon" type="image/png" href="favicon.webp">
+  <!-- SEO -->
+  <title>Kamol & Charos | To‘y Taklifnomasi</title>
+  <meta name="description" content="Kamol va Charosning to‘yiga taklif! Sizning ishtirokingiz — biz uchun eng qadrli sovg‘a." />
+  <meta name="keywords" content="to‘y taklifnoma, wedding invitation, Kamol Charos, nikoh, taklifnoma" />
+  <meta name="author" content="Kamol" />
 
-    <!-- PRECONNECT -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Open Graph -->
+  <meta property="og:title" content="Kamol & Charos" />
+  <meta property="og:description" content="Sizning ishtirokingiz — biz uchun eng qadrli sovg‘a" />
+  <meta property="og:image" content="https://kamoltoy.vercel.app/preview.webp" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://kamoltoy.vercel.app/" />
+  <meta property="og:locale" content="uz_UZ" />
 
-    <!-- GOOGLE FONTS ASYNC -->
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Raleway:wght@200;300;400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Kamol & Charos" />
+  <meta name="twitter:description" content="Sizning ishtirokingiz — biz uchun eng qadrli sovg‘a" />
+  <meta name="twitter:image" content="https://kamoltoy.vercel.app/preview.webp" />
 
-    <!-- CSS NON-BLOCKING -->
+  <!-- Favicon -->
+  <link rel="icon" type="image/webp" href="./favicon.webp" />
 
-    <link rel="stylesheet" href="style.css">
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Raleway:wght@200;300;400;500&display=swap" rel="stylesheet" />
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="./style.css" />
 </head>
-
-<body class="overflowH">
-
+  <body class="overflowH">
     <video class="hero-video" id="heroVideo" autoplay muted loop playsinline>
-        <source src="https://cdn.pixabay.com/video/2022/08/01/126184-735726284_large.mp4" type="video/mp4">
-        <source src="https://dl.dropbox.com/scl/fi/aqup53mxqxord9wbpq5js/whitefabric-2.mp4?rlkey=4qlyyhyaiezk3vm13n6t2w2je&raw=1" type="video/mp4">
+      <source
+        src="https://cdn.pixabay.com/video/2022/08/01/126184-735726284_large.mp4"
+        type="video/mp4"
+      />
+      <source
+        src="https://dl.dropbox.com/scl/fi/aqup53mxqxord9wbpq5js/whitefabric-2.mp4?rlkey=4qlyyhyaiezk3vm13n6t2w2je&raw=1"
+        type="video/mp4"
+      />
     </video>
     <div class="hero-overlay"></div>
 
     <div class="unlock-header">
-        <button class="music-toggle" id="musicToggleUnlock">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                <path d="M9 18V5l12-2v13"/>
-                <circle cx="6" cy="18" r="3"/>
-                <circle cx="18" cy="16" r="3"/>
-            </svg>
-        </button>
+      <button class="music-toggle" id="musicToggleUnlock">
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+        >
+          <path d="M9 18V5l12-2v13" />
+          <circle cx="6" cy="18" r="3" />
+          <circle cx="18" cy="16" r="3" />
+        </svg>
+      </button>
 
-        <div class="lang-switcher">
-            <button class="lang-btn" data-lang="ru">RU</button>
-            <button class="lang-btn" data-lang="uz">UZ</button>
-            <button class="lang-btn" data-lang="uzk">УЗ</button>
-            <button class="lang-btn" data-lang="en">EN</button>
-        </div>
+      <div class="lang-switcher">
+        <button class="lang-btn" data-lang="ru">RU</button>
+        <button class="lang-btn" data-lang="uz">UZ</button>
+        <button class="lang-btn" data-lang="uzk">УЗ</button>
+        <button class="lang-btn" data-lang="en">EN</button>
+      </div>
     </div>
 
     <div id="unlock-screen">
+      <div class="unlock-center">
+        <div class="vertical-line"></div>
 
-        <div class="unlock-center">
-
-            <div class="vertical-line"></div>
-
-            <div class="black-heart">
-                <svg viewBox="0 0 24 24" fill="#111">
-                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5
+        <div class="black-heart">
+          <svg viewBox="0 0 24 24" fill="#111">
+            <path
+              d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5
                 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81
                 4.5 2.09C13.09 3.81 14.76 3 16.5 3
                 19.58 3 22 5.42 22 8.5c0 3.78-3.4
-                6.86-8.55 11.54L12 21.35z"/>
-            </svg>
-            </div>
+                6.86-8.55 11.54L12 21.35z"
+            />
+          </svg>
+        </div>
 
-            <div class="unlock-title">SIZGA TAKLIFNOMA KELDI</div>
+        <div class="unlock-title">SIZGA TAKLIFNOMA KELDI</div>
 
-            <div class="unlock-names-minimal">
-                Kamol <span class="amp-minimal">&</span> Charos
-            </div>
+        <div class="unlock-names-minimal">
+          Kamol <span class="amp-minimal">&</span> Charos
+        </div>
 
-            <button class="lock-btn" id="unlockBtn">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                <rect x="5" y="11" width="14" height="11" rx="2"/>
-                <path d="M8 11V8c0-2.2 1.8-4 4-4s4 1.8 4 4v3"/>
-            </svg>
+        <button class="lock-btn" id="unlockBtn">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+          >
+            <rect x="5" y="11" width="14" height="11" rx="2" />
+            <path d="M8 11V8c0-2.2 1.8-4 4-4s4 1.8 4 4v3" />
+          </svg>
         </button>
 
-            <div class="unlock-instruction">
-                Qulfchani bosib,
-            </div>
-            <div class="unlock1-instruction1" style="margin: -20px;">
-                taklifnomani oching
-            </div>
-
+        <div class="unlock-instruction">Qulfchani bosib,</div>
+        <div class="unlock1-instruction1" style="margin: -20px">
+          taklifnomani oching
         </div>
+      </div>
     </div>
 
     <div class="hero">
-        <div class="bokeh-canvas" id="bokehCanvas"></div>
-        <div class="thread thread-1"></div>
-        <div class="thread thread-2"></div>
-        <div class="thread thread-3"></div>
-        <div class="thread thread-4"></div>
-        <div class="hero-inner">
-            <span class="hero-eyebrow"><span class="heros1">To‘yga taklifnoma</span> <span>·</span> <span class="heros2">21-iyun 2026 | 19:00</span></span>
-            <div class="hero-names">
-                <em>Kamol</em>
-                <span class="hero-amp">&amp;</span>
-                <em>Charos</em>
-            </div>
-            <div class="hero-date-row">
-                <span class="hero-date">Sizning ishtirokingiz — biz uchun eng qadrli sovg‘a</span>
-            </div>
-            <!-- Добавьте этот HTML-код после .hero-date-row -->
-            <div class="luxury-timer-wrapper fade-in">
-                <div class="timer-label">TO‘YGACHA QOLGAN VAQT</div>
-                <div class="luxury-timer" id="countdownTimer">
-                    <div class="timer-block">
-                        <div class="timer-num" id="days">111</div>
-                        <div class="timer-unit unit11">kun</div>
-                    </div>
-                    <div class="timer-sep">:</div>
-                    <div class="timer-block">
-                        <div class="timer-num" id="hours">03</div>
-                        <div class="timer-unit unit22">soat</div>
-                    </div>
-                    <div class="timer-sep">:</div>
-                    <div class="timer-block">
-                        <div class="timer-num" id="minutes">56</div>
-                        <div class="timer-unit unit33">daqiqa</div>
-                    </div>
-                    <div class="timer-sep">:</div>
-                    <div class="timer-block">
-                        <div class="timer-num" id="seconds">09</div>
-                        <div class="timer-unit unit44">soniya</div>
-                    </div>
-                </div>
-            </div>
+      <div class="bokeh-canvas" id="bokehCanvas"></div>
+      <div class="thread thread-1"></div>
+      <div class="thread thread-2"></div>
+      <div class="thread thread-3"></div>
+      <div class="thread thread-4"></div>
+      <div class="hero-inner">
+        <span class="hero-eyebrow"
+          ><span class="heros1">To‘yga taklifnoma</span> <span>·</span>
+          <span class="heros2">21-iyun 2026 | 19:00</span></span
+        >
+        <div class="hero-names">
+          <em>Kamol</em>
+          <span class="hero-amp">&amp;</span>
+          <em>Charos</em>
         </div>
-        <div class="scroll-hint">
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-            <path d="M7 2v10M3 8l4 4 4-4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+        <div class="hero-date-row">
+          <span class="hero-date"
+            >Sizning ishtirokingiz — biz uchun eng qadrli sovg‘a</span
+          >
+        </div>
+        <!-- Добавьте этот HTML-код после .hero-date-row -->
+        <div class="luxury-timer-wrapper fade-in">
+          <div class="timer-label">TO‘YGACHA QOLGAN VAQT</div>
+          <div class="luxury-timer" id="countdownTimer">
+            <div class="timer-block">
+              <div class="timer-num" id="days">111</div>
+              <div class="timer-unit unit11">kun</div>
+            </div>
+            <div class="timer-sep">:</div>
+            <div class="timer-block">
+              <div class="timer-num" id="hours">03</div>
+              <div class="timer-unit unit22">soat</div>
+            </div>
+            <div class="timer-sep">:</div>
+            <div class="timer-block">
+              <div class="timer-num" id="minutes">56</div>
+              <div class="timer-unit unit33">daqiqa</div>
+            </div>
+            <div class="timer-sep">:</div>
+            <div class="timer-block">
+              <div class="timer-num" id="seconds">09</div>
+              <div class="timer-unit unit44">soniya</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="scroll-hint">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path
+            d="M7 2v10M3 8l4 4 4-4"
+            stroke="currentColor"
+            stroke-width="1.3"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
         </svg>
-            <span class="scroll11">Pastga aylantirin</span>
-        </div>
+        <span class="scroll11">Pastga aylantirin</span>
+      </div>
     </div>
 
-    <div class="section" id="section11" style="padding-top:0;">
-        <div class="divider fade-in">
-            <div class="dv-line"></div>
-            <div class="dv-dot"></div>
-            <div class="dv-gem"></div>
-            <div class="dv-dot"></div>
-            <div class="dv-line"></div>
+    <div class="section" id="section11" style="padding-top: 0">
+      <div class="divider fade-in">
+        <div class="dv-line"></div>
+        <div class="dv-dot"></div>
+        <div class="dv-gem"></div>
+        <div class="dv-dot"></div>
+        <div class="dv-line"></div>
+      </div>
+      <div class="fade-in">
+        <img
+          src="bg2.webp"
+          alt="fabric"
+          style="
+            width: 100%;
+            max-width: 100%;
+            display: block;
+            margin: 0 auto 28px;
+            border-radius: 12px;
+          "
+        />
+        <span class="tag tag11">Hurmatli mehmonlar</span>
+        <div class="quote">
+          <p class="quote11">
+            Biz uchun aziz bo‘lgan ushbu kunni siz bilan birga nishonlashni
+            istaymiz. Quvonchimizga sherik bo‘lishingizdan mamnun bo‘lamiz.
+          </p>
         </div>
-        <div class="fade-in">
-            <img src="bg2.webp" alt="fabric" style="width:100%;max-width:100%;display:block;margin:0 auto 28px;border-radius:12px;">
-            <span class="tag tag11">Hurmatli mehmonlar</span>
-            <div class="quote">
-                <p class="quote11">Biz uchun aziz bo‘lgan ushbu kunni siz bilan birga nishonlashni istaymiz. Quvonchimizga sherik bo‘lishingizdan mamnun bo‘lamiz.</p>
-            </div>
-        </div>
+      </div>
     </div>
-
 
     <section class="calendar-section fade-in">
-        <div class="divider fade-in">
-            <div class="dv-line"></div>
-            <div class="dv-gem"></div>
-            <div class="dv-line"></div>
+      <div class="divider fade-in">
+        <div class="dv-line"></div>
+        <div class="dv-gem"></div>
+        <div class="dv-line"></div>
+      </div>
+      <div class="fade-in">
+        <span class="tag cal11">SANOQLI KUNLAR</span>
+        <h2 class="sec-title cal22">To'y kalendari</h2>
+      </div>
+
+      <div class="calendar-wrapper fade-in">
+        <div class="calendar-month">
+          <span class="month-name cal33">IYUN 2026</span>
+          <div class="month-decoration"></div>
         </div>
-        <div class="fade-in">
-            <span class="tag cal11">SANOQLI KUNLAR</span>
-            <h2 class="sec-title cal22">To'y kalendari</h2>
+
+        <div class="calendar-grid">
+          <!-- Hafta kunlari -->
+          <div class="calendar-weekday cale1">Du</div>
+          <div class="calendar-weekday cale2">Se</div>
+          <div class="calendar-weekday cale3">Ch</div>
+          <div class="calendar-weekday cale4">Pa</div>
+          <div class="calendar-weekday cale5">Ju</div>
+          <div class="calendar-weekday cale6">Sh</div>
+          <div class="calendar-weekday cale7">Ya</div>
+
+          <div class="calendar-day">1</div>
+          <div class="calendar-day">2</div>
+          <div class="calendar-day">3</div>
+          <div class="calendar-day">4</div>
+          <div class="calendar-day">5</div>
+          <div class="calendar-day">6</div>
+          <div class="calendar-day">7</div>
+          <div class="calendar-day">8</div>
+          <div class="calendar-day">9</div>
+          <div class="calendar-day">10</div>
+          <div class="calendar-day">11</div>
+          <div class="calendar-day">12</div>
+          <div class="calendar-day">13</div>
+          <div class="calendar-day">14</div>
+          <div class="calendar-day">15</div>
+          <div class="calendar-day">16</div>
+          <div class="calendar-day">17</div>
+          <div class="calendar-day">18</div>
+          <div class="calendar-day">19</div>
+          <div class="calendar-day">20</div>
+          <!-- 21 - TO‘Y KUNI, yurak animatsiyasi -->
+          <div class="calendar-day wedding-day">
+            21
+            <div class="heart-pulse">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.2"
+              >
+                <path
+                  d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+                />
+              </svg>
+            </div>
+          </div>
+          <div class="calendar-day">22</div>
+          <div class="calendar-day">23</div>
+          <div class="calendar-day">24</div>
+          <div class="calendar-day">25</div>
+          <div class="calendar-day">26</div>
+          <div class="calendar-day">27</div>
+          <div class="calendar-day">28</div>
+          <div class="calendar-day">29</div>
+          <div class="calendar-day">30</div>
         </div>
 
-        <div class="calendar-wrapper fade-in">
-            <div class="calendar-month">
-                <span class="month-name cal33">IYUN 2026</span>
-                <div class="month-decoration"></div>
-            </div>
-
-            <div class="calendar-grid">
-                <!-- Hafta kunlari -->
-                <div class="calendar-weekday cale1">Du</div>
-                <div class="calendar-weekday cale2">Se</div>
-                <div class="calendar-weekday cale3">Ch</div>
-                <div class="calendar-weekday cale4">Pa</div>
-                <div class="calendar-weekday cale5">Ju</div>
-                <div class="calendar-weekday cale6">Sh</div>
-                <div class="calendar-weekday cale7">Ya</div>
-
-                <div class="calendar-day">1</div>
-                <div class="calendar-day">2</div>
-                <div class="calendar-day">3</div>
-                <div class="calendar-day">4</div>
-                <div class="calendar-day">5</div>
-                <div class="calendar-day">6</div>
-                <div class="calendar-day">7</div>
-                <div class="calendar-day">8</div>
-                <div class="calendar-day">9</div>
-                <div class="calendar-day">10</div>
-                <div class="calendar-day">11</div>
-                <div class="calendar-day">12</div>
-                <div class="calendar-day">13</div>
-                <div class="calendar-day">14</div>
-                <div class="calendar-day">15</div>
-                <div class="calendar-day">16</div>
-                <div class="calendar-day">17</div>
-                <div class="calendar-day">18</div>
-                <div class="calendar-day">19</div>
-                <div class="calendar-day">20</div>
-                <!-- 21 - TO‘Y KUNI, yurak animatsiyasi -->
-                <div class="calendar-day wedding-day">
-                    21
-                    <div class="heart-pulse">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
-                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-                    </svg>
-                    </div>
-                </div>
-                <div class="calendar-day">22</div>
-                <div class="calendar-day">23</div>
-                <div class="calendar-day">24</div>
-                <div class="calendar-day">25</div>
-                <div class="calendar-day">26</div>
-                <div class="calendar-day">27</div>
-                <div class="calendar-day">28</div>
-                <div class="calendar-day">29</div>
-                <div class="calendar-day">30</div>
-            </div>
-
-            <div class="calendar-note">
-                <span class="note-dot"></span>
-                <span class="note-text notetext1">yurak — to‘y kuni</span>
-            </div>
+        <div class="calendar-note">
+          <span class="note-dot"></span>
+          <span class="note-text notetext1">yurak — to‘y kuni</span>
         </div>
+      </div>
     </section>
 
+    <section class="section details-section fade-in" style="margin-top: 40px">
+      <div class="divider fade-in">
+        <div class="dv-line"></div>
+        <div class="dv-gem"></div>
+        <div class="dv-line"></div>
+      </div>
+      <div class="fade-in">
+        <span class="tag detcd1" data-lang-tag>To'yimiz haqida qisqacha</span>
+        <h2 class="sec-title detcd2">Tadbir tafsilotlari</h2>
+      </div>
 
-    <section class="section details-section fade-in" style="margin-top: 40px;">
-        <div class="divider fade-in">
-            <div class="dv-line"></div>
-            <div class="dv-gem"></div>
-            <div class="dv-line"></div>
-        </div>
-        <div class="fade-in">
-            <span class="tag detcd1" data-lang-tag>To'yimiz haqida qisqacha</span>
-            <h2 class="sec-title detcd2">Tadbir tafsilotlari</h2>
-        </div>
-
-        <div class="details-grid fade-in">
-            <!-- Manzil -->
-            <div class="detail-card">
-                <div class="detail-icon">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M12 2c-4.4 0-8 3.6-8 8 0 5.4 8 13 8 13s8-7.6 8-13c0-4.4-3.6-8-8-8z"/>
-                    <circle cx="12" cy="10" r="3"/>
-                </svg>
-                </div>
-                <div class="detail-content">
-                    <h3 class="detail-title detcd3">Manzil</h3>
-                    <p class="detail-text detcd4">“MOHINUR-3” restorani, Payariq, Samarqand</p>
-                    <a href="https://maps.app.goo.gl/nKrDkTeNg6EaMfSt6" target="_blank" class="detail-link detcd5">Xaritada ochish →</a>
-                </div>
-            </div>
-
-            <!-- Vaqt -->
-            <div class="detail-card">
-                <div class="detail-icon">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
-                    <circle cx="12" cy="12" r="10"/>
-                    <polyline points="12 6 12 12 16 14"/>
-                </svg>
-                </div>
-                <div class="detail-content">
-                    <h3 class="detail-title detcd6">Vaqt</h3>
-                    <p class="detail-text detcd7">2026-yil 21-iyun, soat 19:00</p>
-                    <p class="detail-note detcd8">Eshiklar 18:30 dan ochiq</p>
-                </div>
-            </div>
+      <div class="details-grid fade-in">
+        <!-- Manzil -->
+        <div class="detail-card">
+          <div class="detail-icon">
+            <svg
+              width="28"
+              height="28"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M12 2c-4.4 0-8 3.6-8 8 0 5.4 8 13 8 13s8-7.6 8-13c0-4.4-3.6-8-8-8z"
+              />
+              <circle cx="12" cy="10" r="3" />
+            </svg>
+          </div>
+          <div class="detail-content">
+            <h3 class="detail-title detcd3">Manzil</h3>
+            <p class="detail-text detcd4">
+              “MOHINUR-3” restorani, Payariq, Samarqand
+            </p>
+            <a
+              href="https://maps.app.goo.gl/nKrDkTeNg6EaMfSt6"
+              target="_blank"
+              class="detail-link detcd5"
+              >Xaritada ochish →</a
+            >
+          </div>
         </div>
 
-        <!-- Qo'shimcha eslatma (ixtiyoriy) -->
-        <div class="details-footnote fade-in">
-            <div class="ornament-line"></div>
-            <p class="detcd14">Sizning tabassumingiz — bizning eng katta bezakimiz. Hurmat va mehr muhitini yaratishga qo‘shilgan hissangiz uchun oldindan rahmat.</p>
+        <!-- Vaqt -->
+        <div class="detail-card">
+          <div class="detail-icon">
+            <svg
+              width="28"
+              height="28"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.2"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <polyline points="12 6 12 12 16 14" />
+            </svg>
+          </div>
+          <div class="detail-content">
+            <h3 class="detail-title detcd6">Vaqt</h3>
+            <p class="detail-text detcd7">2026-yil 21-iyun, soat 19:00</p>
+            <p class="detail-note detcd8">Eshiklar 18:30 dan ochiq</p>
+          </div>
         </div>
+      </div>
+
+      <!-- Qo'shimcha eslatma (ixtiyoriy) -->
+      <div class="details-footnote fade-in">
+        <div class="ornament-line"></div>
+        <p class="detcd14">
+          Sizning tabassumingiz — bizning eng katta bezakimiz. Hurmat va mehr
+          muhitini yaratishga qo‘shilgan hissangiz uchun oldindan rahmat.
+        </p>
+      </div>
     </section>
 
     <section class="location-section fade-in">
-        <div class="divider fade-in">
-            <div class="dv-line"></div>
-            <div class="dv-gem"></div>
-            <div class="dv-line"></div>
-        </div>
-        <div class="fade-in">
-            <span class="tag locat1">JOYLASHUV VA YO‘NALISH</span>
-            <h2 class="sec-title locat2">Bizni toping</h2>
+      <div class="divider fade-in">
+        <div class="dv-line"></div>
+        <div class="dv-gem"></div>
+        <div class="dv-line"></div>
+      </div>
+      <div class="fade-in">
+        <span class="tag locat1">JOYLASHUV VA YO‘NALISH</span>
+        <h2 class="sec-title locat2">Bizni toping</h2>
+      </div>
+
+      <!-- Google Maps iframe -->
+      <div class="map-container fade-in">
+        <iframe
+          style="border: 0; width: 100%"
+          src="https://maps.google.com/maps?q=MOHINUR-3%20restorani%20Payariq%20Samarqand&t=&z=15&ie=UTF8&iwloc=&output=embed"
+          height="360"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>
+      </div>
+
+      <!-- Manzil va tugmalar -->
+      <div class="location-info fade-in">
+        <div class="address-card">
+          <div class="address-icon">
+            <svg
+              width="22"
+              height="22"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.3"
+            >
+              <path
+                d="M12 2c-4.4 0-8 3.6-8 8 0 5.4 8 13 8 13s8-7.6 8-13c0-4.4-3.6-8-8-8z"
+              />
+              <circle cx="12" cy="10" r="3" />
+            </svg>
+          </div>
+          <div class="address-text">
+            <strong><span class="locat3">“MOHINUR-3” restorani</span></strong>
+            <span class="locat4">Payariq, Samarqand</span>
+          </div>
         </div>
 
-        <!-- Google Maps iframe -->
-        <div class="map-container fade-in">
-            <iframe style="border:0; width: 100%;" src="https://maps.google.com/maps?q=MOHINUR-3%20restorani%20Payariq%20Samarqand&t=&z=15&ie=UTF8&iwloc=&output=embed"
-                height="360" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <div class="button-group">
+          <a
+            href="https://maps.app.goo.gl/nKrDkTeNg6EaMfSt6"
+            target="_blank"
+            class="map-btn google-btn"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M12 2C7.58 2 4 5.58 4 10c0 4.42 5.58 11 8 13 2.42-2 8-8.58 8-13 0-4.42-3.58-8-8-8zm0 11c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z"
+              />
+            </svg>
+            Google Maps
+          </a>
+          <a
+            href="https://yandex.uz/maps/-/CPCpr2Ya"
+            target="_blank"
+            class="map-btn yandex-btn"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 4c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm0 13c-2.33 0-4.31-1.46-5.11-3.5h10.22c-.8 2.04-2.78 3.5-5.11 3.5z"
+              />
+            </svg>
+            Yandex Maps
+          </a>
+          <a
+            href="https://maps.app.goo.gl/nKrDkTeNg6EaMfSt6"
+            target="_blank"
+            class="map-btn route-btn"
+          >
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+            >
+              <path
+                d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"
+              />
+              <circle cx="12" cy="12" r="3" />
+            </svg>
+            <span class="locat5">Marshrut yaratish</span>
+          </a>
         </div>
-
-        <!-- Manzil va tugmalar -->
-        <div class="location-info fade-in">
-            <div class="address-card">
-                <div class="address-icon">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3">
-                    <path d="M12 2c-4.4 0-8 3.6-8 8 0 5.4 8 13 8 13s8-7.6 8-13c0-4.4-3.6-8-8-8z"/>
-                    <circle cx="12" cy="10" r="3"/>
-                </svg>
-                </div>
-                <div class="address-text">
-                    <strong><span class="locat3">“MOHINUR-3” restorani</span></strong>
-                    <span class="locat4">Payariq, Samarqand</span>
-                </div>
-            </div>
-
-            <div class="button-group">
-                <a href="https://maps.app.goo.gl/nKrDkTeNg6EaMfSt6" target="_blank" class="map-btn google-btn">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 2C7.58 2 4 5.58 4 10c0 4.42 5.58 11 8 13 2.42-2 8-8.58 8-13 0-4.42-3.58-8-8-8zm0 11c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z"/>
-                </svg>
-                Google Maps
-            </a>
-                <a href="https://yandex.uz/maps/-/CPCpr2Ya" target="_blank" class="map-btn yandex-btn">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 4c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm0 13c-2.33 0-4.31-1.46-5.11-3.5h10.22c-.8 2.04-2.78 3.5-5.11 3.5z"/>
-                </svg>
-                Yandex Maps
-            </a>
-                <a href="https://maps.app.goo.gl/nKrDkTeNg6EaMfSt6" target="_blank" class="map-btn route-btn">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                    <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
-                    <circle cx="12" cy="12" r="3"/>
-                </svg>
-                <span class="locat5">Marshrut yaratish</span>
-            </a>
-            </div>
-        </div>
+      </div>
     </section>
 
     <section class="rsvp-section fade-in">
-        <div class="divider fade-in">
-            <div class="dv-line"></div>
-            <div class="dv-gem"></div>
-            <div class="dv-line"></div>
-        </div>
-        <div class="fade-in">
-            <span class="tag">ISHTIROKINGIZNI TASDIQLANG</span>
-            <h2 class="sec-title">Biz bilan bo‘ling</h2>
-        </div>
+      <div class="divider fade-in">
+        <div class="dv-line"></div>
+        <div class="dv-gem"></div>
+        <div class="dv-line"></div>
+      </div>
+      <div class="fade-in">
+        <span class="tag">ISHTIROKINGIZNI TASDIQLANG</span>
+        <h2 class="sec-title">Biz bilan bo‘ling</h2>
+      </div>
 
-        <div class="rsvp-container fade-in">
-            <form id="rsvpForm" class="rsvp-form">
-                <!-- Mehmon ismi -->
-                <div class="form-group">
-                    <label class="form-label">
-                    <span class="label-text">Mehmon ismi</span>
-                    <span class="label-required">*</span>
-                </label>
-                    <input type="text" class="form-input" placeholder="Ismingizni kiriting" required>
-                    <div class="input-focus"></div>
-                </div>
+      <div class="rsvp-container fade-in">
+        <form id="rsvpForm" class="rsvp-form">
+          <!-- Mehmon ismi -->
+          <div class="form-group">
+            <label class="form-label">
+              <span class="label-text">Mehmon ismi</span>
+              <span class="label-required">*</span>
+            </label>
+            <input
+              type="text"
+              class="form-input"
+              placeholder="Ismingizni kiriting"
+              required
+            />
+            <div class="input-focus"></div>
+          </div>
 
-                <!-- Mehmonlar soni -->
-                <div class="form-group">
-                    <label class="form-label">
-                    <span class="label-text">Mehmonlar soni</span>
-                </label>
-                    <div class="guest-selector">
-                        <button type="button" class="guest-minus" aria-label="Kamaytirish">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <line x1="5" y1="12" x2="19" y2="12"/>
-                        </svg>
-                    </button>
-                        <span class="guest-count">1</span>
-                        <button type="button" class="guest-plus" aria-label="Oshirish">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <line x1="12" y1="5" x2="12" y2="19"/>
-                            <line x1="5" y1="12" x2="19" y2="12"/>
-                        </svg>
-                    </button>
-                    </div>
-                    <div class="guest-hint guest11">1 dan 5 gacha</div>
-                </div>
-
-                <!-- To'yga kelasizmi? -->
-                <div class="form-group">
-                    <label class="form-label">
-                    <span class="label-text">To'yga kelasizmi?</span>
-                    <span class="label-required">*</span>
-                </label>
-                    <div class="radio-group">
-                        <label class="radio-card">
-                        <input type="radio" name="attendance" value="yes" checked>
-                        <span class="radio-content">
-                            <span class="radio-icon">✓</span>
-                            <span class="radio-text">Ha, mamnuniyat bilan</span>
-                        </span>
-                    </label>
-                        <label class="radio-card">
-                        <input type="radio" name="attendance" value="no">
-                        <span class="radio-content">
-                            <span class="radio-icon">✗</span>
-                            <span class="radio-text">Afsuski, kela olmayman</span>
-                        </span>
-                    </label>
-                    </div>
-                </div>
-
-                <!-- Sharh (ixtiyoriy) -->
-                <div class="form-group">
-                    <label class="form-label">
-                    <span class="label-text">Sharh (ixtiyoriy)</span>
-                </label>
-                    <textarea class="form-textarea" rows="3" placeholder="Sizning tilaklaringiz yoki savollaringiz"></textarea>
-                    <div class="input-focus"></div>
-                </div>
-
-                <!-- Yuborish tugmasi -->
-                <button type="submit" class="submit-btn">
-                <span class="btn-text">Yuborish</span>
-                <span class="btn-icon">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <line x1="22" y1="2" x2="11" y2="13"/>
-                        <polygon points="22 2 15 22 11 13 2 9 22 2"/>
-                    </svg>
-                </span>
-            </button>
-
-                <div class="form-note">
-                    <span class="note-asterisk">*</span>
-                    <span class="note-text">Majburiy maydonlar</span>
-                </div>
-            </form>
-
-            <!-- Toast xabari -->
-            <div id="toastMessage" class="toast-message">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="20 6 9 17 4 12"/>
-            </svg>
-                <span>Rahmat! Javobingiz muvaffaqiyatli saqlandi</span>
+          <!-- Mehmonlar soni -->
+          <div class="form-group">
+            <label class="form-label">
+              <span class="label-text">Mehmonlar soni</span>
+            </label>
+            <div class="guest-selector">
+              <button
+                type="button"
+                class="guest-minus"
+                aria-label="Kamaytirish"
+              >
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                </svg>
+              </button>
+              <span class="guest-count">1</span>
+              <button type="button" class="guest-plus" aria-label="Oshirish">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <line x1="12" y1="5" x2="12" y2="19" />
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                </svg>
+              </button>
             </div>
+            <div class="guest-hint guest11">1 dan 5 gacha</div>
+          </div>
+
+          <!-- To'yga kelasizmi? -->
+          <div class="form-group">
+            <label class="form-label">
+              <span class="label-text">To'yga kelasizmi?</span>
+              <span class="label-required">*</span>
+            </label>
+            <div class="radio-group">
+              <label class="radio-card">
+                <input type="radio" name="attendance" value="yes" checked />
+                <span class="radio-content">
+                  <span class="radio-icon">✓</span>
+                  <span class="radio-text">Ha, mamnuniyat bilan</span>
+                </span>
+              </label>
+              <label class="radio-card">
+                <input type="radio" name="attendance" value="no" />
+                <span class="radio-content">
+                  <span class="radio-icon">✗</span>
+                  <span class="radio-text">Afsuski, kela olmayman</span>
+                </span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Sharh (ixtiyoriy) -->
+          <div class="form-group">
+            <label class="form-label">
+              <span class="label-text">Sharh (ixtiyoriy)</span>
+            </label>
+            <textarea
+              class="form-textarea"
+              rows="3"
+              placeholder="Sizning tilaklaringiz yoki savollaringiz"
+            ></textarea>
+            <div class="input-focus"></div>
+          </div>
+
+          <!-- Yuborish tugmasi -->
+          <button type="submit" class="submit-btn">
+            <span class="btn-text">Yuborish</span>
+            <span class="btn-icon">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <line x1="22" y1="2" x2="11" y2="13" />
+                <polygon points="22 2 15 22 11 13 2 9 22 2" />
+              </svg>
+            </span>
+          </button>
+
+          <div class="form-note">
+            <span class="note-asterisk">*</span>
+            <span class="note-text">Majburiy maydonlar</span>
+          </div>
+        </form>
+
+        <!-- Toast xabari -->
+        <div id="toastMessage" class="toast-message">
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <polyline points="20 6 9 17 4 12" />
+          </svg>
+          <span>Rahmat! Javobingiz muvaffaqiyatli saqlandi</span>
         </div>
+      </div>
     </section>
 
     <div class="couple-wrap fade-in">
-        <div class="divider">
-            <div class="dv-line"></div>
-            <div class="dv-gem"></div>
-            <div class="dv-line"></div>
+      <div class="divider">
+        <div class="dv-line"></div>
+        <div class="dv-gem"></div>
+        <div class="dv-line"></div>
+      </div>
+      <div class="couple-photo">
+        <img src="bg3.webp" alt="Kamol va Charos" />
+        <div class="couple-cap">
+          <p>Kamol va Charos</p>
         </div>
-        <div class="couple-photo">
-            <img src="bg3.webp" alt="Kamol va Charos">
-            <div class="couple-cap">
-                <p>Kamol va Charos</p>
-            </div>
-        </div>
+      </div>
     </div>
 
     <div class="section">
-        <div class="divider fade-in">
-            <div class="dv-line"></div>
-            <div class="dv-gem"></div>
-            <div class="dv-line"></div>
+      <div class="divider fade-in">
+        <div class="dv-line"></div>
+        <div class="dv-gem"></div>
+        <div class="dv-line"></div>
+      </div>
+      <div class="fade-in">
+        <span class="tag gift11">Sovg‘alar</span>
+        <h2 class="sec-title gift22">Mehmonlarga iltimoslar</h2>
+        <div class="gift-card-single">
+          <p class="gift-text gift33">
+            Biz uchun eng muhimi — sizning to‘y oqshomida yonimizda
+            bo‘lishingiz. E’tiboringiz va ishtirokingizni chin qalbdan
+            qadrlaymiz!
+          </p>
+          <p class="gift-text gift44">
+            Agar bizni yanada xursand qilmoqchi bo‘lsangiz, yosh oilamizga
+            ko‘rsatgan e’tiboringizni konvert shaklida bildirsangiz, bundan
+            benihoya mamnun bo‘lamiz.
+          </p>
         </div>
-        <div class="fade-in">
-            <span class="tag gift11">Sovg‘alar</span>
-            <h2 class="sec-title gift22">Mehmonlarga iltimoslar</h2>
-            <div class="gift-card-single">
-                <p class="gift-text gift33">Biz uchun eng muhimi — sizning to‘y oqshomida yonimizda bo‘lishingiz. E’tiboringiz va ishtirokingizni chin qalbdan qadrlaymiz!</p>
-                <p class="gift-text gift44">Agar bizni yanada xursand qilmoqchi bo‘lsangiz, yosh oilamizga ko‘rsatgan e’tiboringizni konvert shaklida bildirsangiz, bundan benihoya mamnun bo‘lamiz.</p>
-            </div>
-        </div>
+      </div>
     </div>
 
-    <div class="section fade-in" style="margin-top:48px;">
-        <img src="bg4.webp" alt="flower" style="width:100%;display:block;border-radius:18px;">
+    <div class="section fade-in" style="margin-top: 48px">
+      <img
+        src="bg4.webp"
+        alt="flower"
+        style="width: 100%; display: block; border-radius: 18px"
+      />
     </div>
 
     <div class="closing fade-in">
-        <div class="or-row">
-            <div class="or-line"></div>
-            <div class="or-dot"></div>
-            <div class="or-dot"></div>
-            <div class="or-dot"></div>
-            <div class="or-line"></div>
-        </div>
-        <span class="closing-tag clos11">To‘yga xush kelibsiz!</span>
-        <p class="closing-text"><span class="clos22">Bu baxtli kunda biz bilan birga bo‘lganingiz uchun</span><br><span class="clos33">samimiy minnatdorchilik bildiramiz.</span></p>
-        <div class="closing-sig"><span class="clos44">Hurmat bilan,</span> <br>Kamol & Charos 🤍</div>
-        <div class="or-row" style="margin-top:36px;">
-            <div class="or-line"></div>
-            <div class="or-dot"></div>
-            <div class="or-line"></div>
-        </div>
+      <div class="or-row">
+        <div class="or-line"></div>
+        <div class="or-dot"></div>
+        <div class="or-dot"></div>
+        <div class="or-dot"></div>
+        <div class="or-line"></div>
+      </div>
+      <span class="closing-tag clos11">To‘yga xush kelibsiz!</span>
+      <p class="closing-text">
+        <span class="clos22"
+          >Bu baxtli kunda biz bilan birga bo‘lganingiz uchun</span
+        ><br /><span class="clos33">samimiy minnatdorchilik bildiramiz.</span>
+      </p>
+      <div class="closing-sig">
+        <span class="clos44">Hurmat bilan,</span> <br />Kamol & Charos 🤍
+      </div>
+      <div class="or-row" style="margin-top: 36px">
+        <div class="or-line"></div>
+        <div class="or-dot"></div>
+        <div class="or-line"></div>
+      </div>
     </div>
 
     <section class="share-section fade-in">
-        <div class="divider fade-in">
-            <div class="dv-line"></div>
-            <div class="dv-gem"></div>
-            <div class="dv-line"></div>
-        </div>
-        <div class="fade-in">
-            <span class="tag share11">TAKLIFNOMANI ULASHING</span>
-            <h2 class="sec-title share22">Do'stlaringizga yetkazing</h2>
-        </div>
+      <div class="divider fade-in">
+        <div class="dv-line"></div>
+        <div class="dv-gem"></div>
+        <div class="dv-line"></div>
+      </div>
+      <div class="fade-in">
+        <span class="tag share11">TAKLIFNOMANI ULASHING</span>
+        <h2 class="sec-title share22">Do'stlaringizga yetkazing</h2>
+      </div>
 
-        <div class="share-container fade-in">
-            <p class="share-text share33">Taklifnomani yaqinlaringizga ham ulashing — ular ham bizning bayramimizga taklif qilingan!</p>
+      <div class="share-container fade-in">
+        <p class="share-text share33">
+          Taklifnomani yaqinlaringizga ham ulashing — ular ham bizning
+          bayramimizga taklif qilingan!
+        </p>
 
-            <div class="share-buttons">
-                <!-- Telegram -->
-                <a href="#" class="share-btn telegram-btn" id="telegramShare">
-                    <div class="share-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248l-2.016 9.502c-.148.659-.543.819-1.101.51l-3.045-2.24-1.469 1.414c-.163.163-.299.299-.612.299l.219-3.098 5.638-5.094c.246-.218-.053-.339-.381-.121L7.232 14.49 4.23 13.566c-.65-.204-.663-.65.136-.963l10.879-4.193c.541-.196 1.015.132.317.838z"/>
-                    </svg>
-                    </div>
-                    <span class="share-name">Telegram</span>
-                </a>
-
-                <!-- WhatsApp -->
-                <a href="#" class="share-btn whatsapp-btn" id="whatsappShare">
-                    <div class="share-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12.031 2C6.5 2 2.03 6.47 2.03 12c0 2.48.9 4.74 2.37 6.46L2 22.5l4.2-1.23c1.65.94 3.56 1.48 5.57 1.48 5.53 0 10-4.47 10-10 0-5.53-4.47-10-10-10zm0 18.25c-2.02 0-3.88-.58-5.45-1.57l-.38-.22-2.84.83.87-2.68-.26-.36c-1.12-1.5-1.78-3.3-1.78-5.23 0-4.55 3.7-8.25 8.25-8.25 4.55 0 8.25 3.7 8.25 8.25 0 4.55-3.7 8.25-8.25 8.25zm4.52-6.03c-.25-.12-1.47-.73-1.7-.81-.23-.08-.4-.12-.57.12-.17.24-.66.81-.81.98-.15.17-.3.19-.55.07-.25-.12-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.38-1.72-.15-.25-.02-.38.11-.51.11-.11.25-.29.38-.44.13-.15.17-.25.26-.42.09-.17.05-.32-.02-.45-.08-.13-.57-1.38-.78-1.89-.21-.51-.42-.44-.57-.44-.15 0-.32-.02-.49-.02s-.45.06-.68.31c-.23.25-.88.86-.88 2.1s.9 2.44 1.03 2.61c.13.17 1.77 2.71 4.29 3.8 2.52 1.09 2.52.73 2.98.68.45-.05 1.47-.6 1.68-1.18.21-.58.21-1.08.15-1.18-.07-.1-.23-.16-.48-.28z"/>
-                    </svg>
-                    </div>
-                    <span class="share-name">WhatsApp</span>
-                </a>
-
-                <!-- Copy Link -->
-                <button class="share-btn copy-btn" id="copyLinkBtn">
-                <span class="share-icon">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
-                        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
-                    </svg>
-                </span>
-                <span class="share-name share44">Nusxa olish</span>
-            </button>
+        <div class="share-buttons">
+          <!-- Telegram -->
+          <a href="#" class="share-btn telegram-btn" id="telegramShare">
+            <div class="share-icon">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path
+                  d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248l-2.016 9.502c-.148.659-.543.819-1.101.51l-3.045-2.24-1.469 1.414c-.163.163-.299.299-.612.299l.219-3.098 5.638-5.094c.246-.218-.053-.339-.381-.121L7.232 14.49 4.23 13.566c-.65-.204-.663-.65.136-.963l10.879-4.193c.541-.196 1.015.132.317.838z"
+                />
+              </svg>
             </div>
+            <span class="share-name">Telegram</span>
+          </a>
 
-            <div class="share-note" id="copyNote">
-                <span class="share55">Havola nusxalandi!</span>
+          <!-- WhatsApp -->
+          <a href="#" class="share-btn whatsapp-btn" id="whatsappShare">
+            <div class="share-icon">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path
+                  d="M12.031 2C6.5 2 2.03 6.47 2.03 12c0 2.48.9 4.74 2.37 6.46L2 22.5l4.2-1.23c1.65.94 3.56 1.48 5.57 1.48 5.53 0 10-4.47 10-10 0-5.53-4.47-10-10-10zm0 18.25c-2.02 0-3.88-.58-5.45-1.57l-.38-.22-2.84.83.87-2.68-.26-.36c-1.12-1.5-1.78-3.3-1.78-5.23 0-4.55 3.7-8.25 8.25-8.25 4.55 0 8.25 3.7 8.25 8.25 0 4.55-3.7 8.25-8.25 8.25zm4.52-6.03c-.25-.12-1.47-.73-1.7-.81-.23-.08-.4-.12-.57.12-.17.24-.66.81-.81.98-.15.17-.3.19-.55.07-.25-.12-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.38-1.72-.15-.25-.02-.38.11-.51.11-.11.25-.29.38-.44.13-.15.17-.25.26-.42.09-.17.05-.32-.02-.45-.08-.13-.57-1.38-.78-1.89-.21-.51-.42-.44-.57-.44-.15 0-.32-.02-.49-.02s-.45.06-.68.31c-.23.25-.88.86-.88 2.1s.9 2.44 1.03 2.61c.13.17 1.77 2.71 4.29 3.8 2.52 1.09 2.52.73 2.98.68.45-.05 1.47-.6 1.68-1.18.21-.58.21-1.08.15-1.18-.07-.1-.23-.16-.48-.28z"
+                />
+              </svg>
             </div>
+            <span class="share-name">WhatsApp</span>
+          </a>
+
+          <!-- Copy Link -->
+          <button class="share-btn copy-btn" id="copyLinkBtn">
+            <span class="share-icon">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+              >
+                <path
+                  d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"
+                />
+                <path
+                  d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"
+                />
+              </svg>
+            </span>
+            <span class="share-name share44">Nusxa olish</span>
+          </button>
         </div>
+
+        <div class="share-note" id="copyNote">
+          <span class="share55">Havola nusxalandi!</span>
+        </div>
+      </div>
     </section>
 
     <section class="guests-section fade-in" id="guests123">
-        <div class="divider fade-in">
-            <div class="dv-line"></div>
-            <div class="dv-gem"></div>
-            <div class="dv-line"></div>
-        </div>
-        <div class="fade-in">
-            <span class="tag">MEHMONLAR RO‘YXATI</span>
-            <h2 class="sec-title">Ishtirokchilar jadvali</h2>
+      <div class="divider fade-in">
+        <div class="dv-line"></div>
+        <div class="dv-gem"></div>
+        <div class="dv-line"></div>
+      </div>
+      <div class="fade-in">
+        <span class="tag">MEHMONLAR RO‘YXATI</span>
+        <h2 class="sec-title">Ishtirokchilar jadvali</h2>
+      </div>
+
+      <div class="guests-container fade-in">
+        <div class="table-wrapper">
+          <table class="guests-table">
+            <thead>
+              <tr>
+                <th>№</th>
+                <th>Mehmon ismi</th>
+                <th>Mehmonlar soni</th>
+                <th>Holat</th>
+                <th>Izoh (ixtiyoriy)</th>
+                <th>Vaqt</th>
+              </tr>
+            </thead>
+            <tbody id="guestsTableBody">
+              <!-- Ma'lumotlar JavaScript orqali yuklanadi -->
+            </tbody>
+          </table>
         </div>
 
-        <div class="guests-container fade-in">
-            <div class="table-wrapper">
-                <table class="guests-table">
-                    <thead>
-                        <tr>
-                            <th>№</th>
-                            <th>Mehmon ismi</th>
-                            <th>Mehmonlar soni</th>
-                            <th>Holat</th>
-                            <th>Izoh (ixtiyoriy)</th>
-                            <th>Vaqt</th>
-                        </tr>
-                    </thead>
-                    <tbody id="guestsTableBody">
-                        <!-- Ma'lumotlar JavaScript orqali yuklanadi -->
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="guests-stats">
-                <div class="stat-item">
-                    <span class="stat-label">Jami mehmonlar:</span>
-                    <span class="stat-value" id="totalGuests">0</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-label">Tasdiqlangan:</span>
-                    <span class="stat-value confirmed" id="confirmedCount">0</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-label">Kela olmaydi:</span>
-                    <span class="stat-value declined" id="declinedCount">0</span>
-                </div>
-            </div>
+        <div class="guests-stats">
+          <div class="stat-item">
+            <span class="stat-label">Jami mehmonlar:</span>
+            <span class="stat-value" id="totalGuests">0</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Tasdiqlangan:</span>
+            <span class="stat-value confirmed" id="confirmedCount">0</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Kela olmaydi:</span>
+            <span class="stat-value declined" id="declinedCount">0</span>
+          </div>
         </div>
+      </div>
     </section>
 
     <footer class="footer-section fade-in">
-        <div class="footer-inner">
-            <!-- Decorative line -->
-            <div class="footer-line"></div>
+      <div class="footer-inner">
+        <!-- Decorative line -->
+        <div class="footer-line"></div>
 
-            <!-- Couple names -->
-            <div class="footer-couple">
-                <h3 class="footer-names">Kamol <span class="footer-amp">&</span> Charos</h3>
-            </div>
-
-            <!-- Date -->
-            <div class="footer-date">
-                <span class="date-icon">✦</span>
-                <span class="date-text date11">21-iyun 2026 | 19:00</span>
-                <span class="date-icon">✦</span>
-            </div>
-
-            <!-- Thank you message -->
-            <div class="footer-thanks">
-                <p class="date22">Eng go‘zal kunda biz bilan birga bo‘lganingiz uchun tashakkur!</p>
-            </div>
-
-            <!-- Small copyright / decoration -->
-            <div class="footer-copyright">
-                <span class="copyright-symbol">♡</span>
-            </div>
+        <!-- Couple names -->
+        <div class="footer-couple">
+          <h3 class="footer-names">
+            Kamol <span class="footer-amp">&</span> Charos
+          </h3>
         </div>
+
+        <!-- Date -->
+        <div class="footer-date">
+          <span class="date-icon">✦</span>
+          <span class="date-text date11">21-iyun 2026 | 19:00</span>
+          <span class="date-icon">✦</span>
+        </div>
+
+        <!-- Thank you message -->
+        <div class="footer-thanks">
+          <p class="date22">
+            Eng go‘zal kunda biz bilan birga bo‘lganingiz uchun tashakkur!
+          </p>
+        </div>
+
+        <!-- Small copyright / decoration -->
+        <div class="footer-copyright">
+          <span class="copyright-symbol">♡</span>
+        </div>
+      </div>
     </footer>
 
     <script src="script.js"></script>
-
-</body>
-
+  </body>
 </html>
