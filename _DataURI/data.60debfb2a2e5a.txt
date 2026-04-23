@@ -1,0 +1,1 @@
+chrome-extension://efaidnbmnnnibpcajpcglclefindmkaj/content_scripts/gmail/gmail-compress-pdf-message-view-fte.js

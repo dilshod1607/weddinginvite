@@ -1,0 +1,1 @@
+chrome-extension://efaidnbmnnnibpcajpcglclefindmkaj/content_scripts/express/gemini/gemini-express-fte.js

@@ -1,0 +1,1 @@
+chrome-extension://dfjabpjekhkgmkfeeohjndnocaogboid/scr/page.bundle.js
