@@ -9,10 +9,11 @@ from datetime import datetime, timedelta, timezone
 app = Flask(__name__)
 
 # Config
-BOT_TOKEN = os.environ.get('BOT_TOKEN', '8796483611:AAEQcSghEiGWyVCbMclplAtpKQpyWENAh5w')
-CHAT_ID = os.environ.get('CHAT_ID', '5391341271')
+BOT_TOKEN = os.environ.get('BOT_TOKEN')
+CHAT_ID = os.environ.get('CHAT_ID')
 # SQLite file in /tmp for Vercel (Note: not persistent across redeploys/restarts)
 DB_PATH = '/tmp/wedding.db'
+
 
 bot = TeleBot(BOT_TOKEN, threaded=False)
 
@@ -184,15 +185,32 @@ def track_visit():
         return jsonify({'success': False}), 500
 
 # Telegram Webhook Handler
-@app.route('/bot_webhook', methods=['POST'])
+@app.route('/bot_webhook', methods=['POST', 'GET'])
 def bot_webhook():
+    if request.method == 'GET':
+        return "Webhook is active. Send a POST request from Telegram."
+    
     if request.headers.get('content-type') == 'application/json':
-        json_string = request.get_data().decode('utf-8')
-        update = json.loads(json_string)
-        bot.process_new_updates([update])
-        return ''
+        try:
+            json_string = request.get_data().decode('utf-8')
+            update = json.loads(json_string)
+            bot.process_new_updates([bot.util.extract_update(update)])
+            return 'OK', 200
+        except Exception as e:
+            print(f"Webhook Error: {e}")
+            return str(e), 500
     else:
-        return jsonify({'error': 'Invalid content-type'}), 403
+        return 'Invalid content-type', 403
+
+@app.route('/set_webhook', methods=['GET'])
+def set_webhook():
+    try:
+        webhook_url = f"https://{request.host}/bot_webhook"
+        bot.remove_webhook()
+        bot.set_webhook(url=webhook_url)
+        return f"Webhook set to: {webhook_url}"
+    except Exception as e:
+        return str(e)
 
 @bot.message_handler(commands=['start', 'help'])
 def send_welcome(message):
