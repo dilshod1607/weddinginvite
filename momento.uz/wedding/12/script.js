@@ -327,7 +327,7 @@ function escapeHtml(str) {
 
 // ========== TIMER ==========
 function updateLuxuryTimer() {
-    const targetDate = new Date(2026, 5, 21, 17, 0, 0);
+    const targetDate = new Date(2026, 5, 21, 19, 0, 0);
     const now = new Date();
     const diff = targetDate - now;
 
@@ -416,7 +416,7 @@ langBtns.forEach(btn => {
                 instruction: 'Нажмите на замок,',
                 instruction1: 'чтобы открыть приглашение',
                 heros1: 'Приглашение на свадьбу',
-                heros2: '21 июня 2026 | 17:00',
+                heros2: '21 июня 2026 | 19:00',
                 herodate: 'Ваше присутствие — самый дорогой подарок для нас',
                 timerlabel: 'ВРЕМЯ ДО СВАДЬБЫ',
                 unit11: 'дней',
@@ -443,7 +443,7 @@ langBtns.forEach(btn => {
                 detcd4: 'Ресторан «MOHINUR-3», Самарканд, Пайарык',
                 detcd5: 'Открыть на карте →',
                 detcd6: 'Время',
-                detcd7: '21 июня 2026 года, 17:00',
+                detcd7: '21 июня 2026 года, 19:00',
                 detcd8: 'Двери открыты с 16:30',
                 detcd14: 'Ваша улыбка — наше главное украшение. Заранее благодарим за вклад в создание атмосферы уважения и тепла.',
                 galler1: 'АДРЕС РЕСТОРАНА',
@@ -477,7 +477,7 @@ langBtns.forEach(btn => {
                 share33: 'Поделитесь приглашением с близкими — они тоже приглашены на наш праздник!',
                 share44: 'Копировать',
                 share55: 'Ссылка скопирована!',
-                date11: '21 июня 2026 | 17:00',
+                date11: '21 июня 2026 | 19:00',
                 date22: 'Спасибо за то, что были с нами в этот самый прекрасный день!'
             },
             uz: {
@@ -485,7 +485,7 @@ langBtns.forEach(btn => {
                 instruction: 'Qulfchani bosib,',
                 instruction1: 'taklifnomani oching',
                 heros1: 'To‘yga taklifnoma',
-                heros2: '21-iyun 2026 | 17:00',
+                heros2: '21-iyun 2026 | 19:00',
                 herodate: 'Sizning ishtirokingiz — biz uchun eng qadrli sovg‘a',
                 timerlabel: 'TO‘YGACHA QOLGAN VAQT',
                 unit11: 'kun',
@@ -512,7 +512,7 @@ langBtns.forEach(btn => {
                 detcd4: '“MOHINUR-3” restorani, Payariq, Samarqand',
                 detcd5: 'Xaritada ochish →',
                 detcd6: 'Vaqt',
-                detcd7: '2026-yil 21-iyun, soat 17:00',
+                detcd7: '2026-yil 21-iyun, soat 19:00',
                 detcd8: 'Eshiklar 16:30 dan ochiq',
                 detcd14: 'Sizning tabassumingiz — bizning eng katta bezakimiz. Hurmat va mehr muhitini yaratishga qo‘shilgan hissangiz uchun oldindan rahmat.',
                 galler1: 'RESTORAN MANZILI',
@@ -546,7 +546,7 @@ langBtns.forEach(btn => {
                 share33: 'Taklifnomani yaqinlaringizga ham ulashing — ular ham bizning bayramimizga taklif qilingan!',
                 share44: 'Nusxa olish',
                 share55: 'Havola nusxalandi!',
-                date11: '21-iyun 2026 | 17:00',
+                date11: '21-iyun 2026 | 19:00',
                 date22: 'Eng go‘zal kunda biz bilan birga bo‘lganingiz uchun tashakkur!'
             },
             uzk: {
@@ -554,7 +554,7 @@ langBtns.forEach(btn => {
                 instruction: 'Қулфчани босиб,',
                 instruction1: 'таклифномани очинг',
                 heros1: 'Тўйга таклифнома',
-                heros2: '21 июнь 2026 | 17:00',
+                heros2: '21 июнь 2026 | 19:00',
                 herodate: 'Сизнинг иштирокингиз — биз учун энг қадрли совға',
                 timerlabel: 'ТЎЙГАЧА ҚОЛГАН ВАҚТ',
                 unit11: 'кун',
@@ -581,7 +581,7 @@ langBtns.forEach(btn => {
                 detcd4: '«MOHINUR-3» ресторани, Самарқанд, Пайариқ',
                 detcd5: 'Харитада очиш →',
                 detcd6: 'Вақт',
-                detcd7: '2026-йил 21-июнь, соат 17:00',
+                detcd7: '2026-йил 21-июнь, соат 19:00',
                 detcd8: 'Эшиклар 16:30 дан очиқ',
                 detcd14: 'Сизнинг табассумингиз — бизнинг энг катта безагимиз. Ҳурмат ва меҳр муҳитини яратишга қўшган ҳиссангиз учун олдиндан раҳмат.',
                 galler1: 'РЕСТОРАН МАНЗИЛИ',
@@ -615,7 +615,7 @@ langBtns.forEach(btn => {
                 share33: 'Таклифномани яқинларингизга ҳам улашинг — улар ҳам бизнинг байрамимизга таклиф қилинган!',
                 share44: 'Нусха олиш',
                 share55: 'Ҳавола нусхаланди!',
-                date11: '21 июнь 2026 | 17:00',
+                date11: '21 июнь 2026 | 19:00',
                 date22: 'Энг гўзал кунда биз билан бирга бўлганингиз учун ташаккур!'
             },
             en: {
@@ -623,7 +623,7 @@ langBtns.forEach(btn => {
                 instruction: 'Click the lock',
                 instruction1: 'to open the invitation',
                 heros1: 'Wedding Invitation',
-                heros2: 'June 21, 2026 | 17:00',
+                heros2: 'June 21, 2026 | 19:00',
                 herodate: 'Your presence is the most precious gift to us',
                 timerlabel: 'TIME REMAINING UNTIL THE WEDDING',
                 unit11: 'days',
@@ -650,7 +650,7 @@ langBtns.forEach(btn => {
                 detcd4: '“MOHINUR-3” Restaurant, Payariq, Samarkand',
                 detcd5: 'Open on map →',
                 detcd6: 'Time',
-                detcd7: 'June 21, 2026, 17:00',
+                detcd7: 'June 21, 2026, 19:00',
                 detcd8: 'Doors open from 16:30',
                 detcd14: 'Your smile is our greatest decoration. Thank you in advance for contributing to an atmosphere of respect and warmth.',
                 galler1: 'RESTAURANT ADDRESS',
@@ -684,7 +684,7 @@ langBtns.forEach(btn => {
                 share33: 'Share the invitation with your loved ones — they are also invited to our celebration!',
                 share44: 'Copy',
                 share55: 'Link copied!',
-                date11: 'June 21, 2026 | 17:00',
+                date11: 'June 21, 2026 | 19:00',
                 date22: 'Thank you for being with us on this most beautiful day!'
             }
         };
