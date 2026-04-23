@@ -56,7 +56,7 @@
 </head>
 
 <body class="overflowH">
-  <video class="hero-video" id="heroVideo" autoplay muted loop playsinline>
+  <video class="hero-video" id="heroVideo" autoplay muted loop playsinline preload="none" poster="./assets/bg.webp">
     <source src="./assets/whitefabric.mp4" type="video/mp4" />
   </video>
   <div class="hero-overlay"></div>
@@ -397,7 +397,7 @@
       <form id="rsvpForm" class="rsvp-form">
         <!-- Honeypot field for spam protection -->
         <input type="text" name="website" style="display:none !important" tabindex="-1" autocomplete="off">
-        
+
         <!-- Mehmon ismi -->
         <div class="form-group">
           <label class="form-label">
