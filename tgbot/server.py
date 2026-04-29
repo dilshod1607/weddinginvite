@@ -5,7 +5,7 @@
 
 # app = Flask(__name__, static_folder='.')
 
-# BOT_TOKEN = os.environ.get('BOT_TOKEN', '8796483611:AAEQcSghEiGWyVCbMclplAtpKQpyWENAh5w')
+# BOT_TOKEN = os.environ.get('BOT_TOKEN')
 # bot = TeleBot(BOT_TOKEN)
 
 # RSVP_FILE = 'rsvp_data.json'
