@@ -275,16 +275,20 @@ function renderGuestsTable(guests) {
 
   let html = "";
 
-  // Добавляем index (0, 1, 2...) в параметры цикла
   guests.forEach((guest, index) => {
     let statusClass = "";
     let statusText = "";
+    const attendance = guest.attendance || guest.status;
+    const guestCount = guest.guestCount ?? guest.guest_count ?? 0;
+    const guestTime = guest.timestamp || guest.time || "—";
 
-    switch (guest.status) {
+    switch (attendance) {
+      case "yes":
       case "confirmed":
         statusText = "Tasdiqlangan";
         statusClass = "status-confirmed";
         break;
+      case "no":
       case "declined":
         statusText = "Kela olmaydi";
         statusClass = "status-declined";
@@ -300,10 +304,10 @@ function renderGuestsTable(guests) {
             <tr>
                 <td>${index + 1}</td>
                 <td><strong>${escapeHtml(guest.name)}</strong></td>
-                <td>${guest.guest_count}</td>
+                <td>${guestCount}</td>
                 <td>${statusBadge}</td>
                 <td>${escapeHtml(guest.comment || "—")}</td>
-                <td class="time-cell">${guest.time || "—"}</td>
+                <td class="time-cell">${escapeHtml(guestTime)}</td>
             </tr>
         `;
   });
@@ -317,12 +321,13 @@ function updateStatsFromGuestsData(guests) {
   let declined = 0;
 
   guests.forEach((guest) => {
-    const count = parseInt(guest.guest_count) || 0;
+    const count = parseInt(guest.guestCount ?? guest.guest_count, 10) || 0;
+    const attendance = guest.attendance || guest.status;
     total += count;
 
-    if (guest.status === "confirmed") {
+    if (attendance === "yes" || attendance === "confirmed") {
       confirmed += count;
-    } else if (guest.status === "declined") {
+    } else if (attendance === "no" || attendance === "declined") {
       declined += count;
     }
   });
